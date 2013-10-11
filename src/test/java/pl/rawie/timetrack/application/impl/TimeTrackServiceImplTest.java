@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.validation.Errors;
 import pl.rawie.timetrack.domain.model.Entry;
+import pl.rawie.timetrack.domain.model.SampleEntry;
 import pl.rawie.timetrack.domain.validator.AddEntryValidator;
 import pl.rawie.timetrack.domain.validator.ValidationError;
 
@@ -30,6 +31,6 @@ public class TimeTrackServiceImplTest {
     public void addEntry_invalidEntry() {
         when(validator.supports(Entry.class)).thenReturn(true);
         doThrow(new ValidationError(null)).when(validator).validate(any(Entry.class), any(Errors.class));
-        service.addEntry(new Entry(null));
+        service.addEntry(SampleEntry.entry());
     }
 }

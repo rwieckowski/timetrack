@@ -1,12 +1,13 @@
 package pl.rawie.timetrack.domain.model;
 
-import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 public class Entry {
-    @NotNull
     private String summary;
+    private Date start;
+    private Date end;
 
-    public Entry(String summary) {
+    public Entry(String summary, Date start, Date end) {
         this.summary = summary;
     }
 
@@ -14,20 +15,20 @@ public class Entry {
         return summary;
     }
 
-    public static final class Builder {
-        private String summary;
-
-        public Builder setSummary(String summary) {
-            this.summary = summary;
-            return this;
-        }
-
-        public Entry build() {
-            return new Entry(summary);
-        }
+    public Date getStart() {
+        return start;
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public Date getEnd() {
+        return end;
+    }
+
+    @Override
+    public String toString() {
+        return "Entry{" +
+                "summary='" + summary + '\'' +
+                ", start=" + start +
+                ", end=" + end +
+                '}';
     }
 }
