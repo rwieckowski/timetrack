@@ -7,6 +7,7 @@ import pl.rawie.timetrack.domain.model.DomainError;
 import pl.rawie.timetrack.domain.model.Entry;
 import pl.rawie.timetrack.domain.model.EntryRepository;
 import pl.rawie.timetrack.domain.service.OverlapService;
+import pl.rawie.timetrack.domain.service.impl.OverlapServiceImpl;
 import pl.rawie.timetrack.domain.validator.AddEntryValidator;
 import pl.rawie.timetrack.domain.validator.ValidationError;
 import pl.rawie.timetrack.domain.validator.ValidatorUtils;
@@ -21,6 +22,7 @@ public class TimeTrackServiceImpl implements TimeTrackService {
 
     public TimeTrackServiceImpl() {
         setAddEntryValidator(new AddEntryValidator());
+        setOverlapService(new OverlapServiceImpl());
     }
 
     @Override
