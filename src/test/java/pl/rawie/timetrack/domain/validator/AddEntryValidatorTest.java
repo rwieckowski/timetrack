@@ -43,7 +43,7 @@ public class AddEntryValidatorTest {
         Entry entry = SampleEntry.builder()
                 .withEnd(null)
                 .build();
-        validate(entry, hasFieldError("start", "required"));
+        validate(entry, hasFieldError("end", "required"));
     }
 }
 
