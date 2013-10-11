@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+    <h:form>
+        <p:calendar value="#{entryListController.date}" pattern="yyyy-MM-dd" showOn="button"/>
+        <p:commandButton value="Filter" actionListener="#{entryListController.findEntries}" update="entries"/>
+
+        <p:dataTable id="entries" var="entry" value="#{entryListController.entries}">
+            <p:column headerText="Summary">
+                <h:outputText value="#{entry.summary}"/>
+            </p:column>
+            <p:column headerText="Start">
+                <h:outputText value="#{entry.start}">
+                    <f:convertDateTime pattern="yyyy-MM-dd hh:mm"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="End">
+                <h:outputText value="#{entry.end}">
+                    <f:convertDateTime pattern="yyyy-MM-dd hh:mm"/>
+                </h:outputText>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</h:body>
+</html>

@@ -2,6 +2,9 @@ package pl.rawie.timetrack.application.impl;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import pl.rawie.timetrack.application.TimeTrackService;
 import pl.rawie.timetrack.domain.model.DomainError;
 import pl.rawie.timetrack.domain.model.Entry;
@@ -15,7 +18,9 @@ import pl.rawie.timetrack.domain.validator.ValidatorUtils;
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class TimeTrackServiceImpl implements TimeTrackService {
+    @Autowired
     private EntryRepository entryRepository;
     private AddEntryValidator addEntryValidator;
     private OverlapService overlapService;
