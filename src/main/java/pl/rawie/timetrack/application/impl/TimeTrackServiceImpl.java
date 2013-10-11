@@ -31,6 +31,7 @@ public class TimeTrackServiceImpl implements TimeTrackService {
         List<Entry> entries = getEntryRepository().findAllByDateRange(range);
         if (getOverlapService().overlaps(entry, entries))
             throw new DomainError("overlapped.entry");
+        getEntryRepository().store(entry);
     }
 
     private EntryRepository getEntryRepository() {

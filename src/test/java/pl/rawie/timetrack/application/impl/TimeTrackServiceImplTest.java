@@ -17,6 +17,7 @@ import pl.rawie.timetrack.domain.validator.ValidationError;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyCollection;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -53,5 +54,12 @@ public class TimeTrackServiceImplTest {
     public void addEntry_overlappedEntry() {
         when(overlapService.overlaps(any(Entry.class), anyCollection())).thenReturn(true);
         service.addEntry(SampleEntry.entry());
+    }
+
+    @Test
+    public void addEntry_validEntry() {
+        Entry entry = SampleEntry.entry();
+        service.addEntry(entry);
+        verify(entryRepository).store(entry);
     }
 }
