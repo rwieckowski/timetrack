@@ -9,6 +9,8 @@ public class Entry {
 
     public Entry(String summary, Date start, Date end) {
         this.summary = summary;
+        this.start = start;
+        this.end = end;
     }
 
     public String getSummary() {
