@@ -1,5 +1,7 @@
 package pl.rawie.timetrack.domain.model;
 
+import com.google.common.collect.Range;
+
 import java.util.Date;
 
 public class Entry {
@@ -23,6 +25,10 @@ public class Entry {
 
     public Date getEnd() {
         return end;
+    }
+
+    public Range getDateRange() {
+        return Range.closedOpen(start, end);
     }
 
     @Override
