@@ -1,6 +1,9 @@
 package pl.rawie.timetrack.domain.model;
 
 import com.google.common.collect.Range;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
+import org.joda.time.Interval;
 
 import java.util.Date;
 
@@ -29,6 +32,11 @@ public class Entry {
 
     public Range getDateRange() {
         return Range.closedOpen(start, end);
+    }
+
+    public long getDuration() {
+        Duration duration = new Duration(new DateTime(start), new DateTime(end));
+        return duration.getStandardMinutes();
     }
 
     @Override

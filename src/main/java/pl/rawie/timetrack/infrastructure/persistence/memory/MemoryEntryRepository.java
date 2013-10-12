@@ -14,7 +14,7 @@ public class MemoryEntryRepository implements EntryRepository {
     private List<Entry> entries = new ArrayList<Entry>();
 
     @Override
-    public List<Entry> findAllByDateRange(Range<Date> range) {
+    public List<Entry> findAllByDate(Date date) {
         return entries;
     }
 

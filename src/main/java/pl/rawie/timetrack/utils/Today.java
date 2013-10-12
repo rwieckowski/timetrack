@@ -12,4 +12,8 @@ public class Today {
     public static Date withTime(int hours) {
         return DateTime.now().withTime(hours, 0, 0, 0).toDate();
     }
+
+    public static Date toDate() {
+        return DateTime.now().withTimeAtStartOfDay().toDate();
+    }
 }

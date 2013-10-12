@@ -7,10 +7,13 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
+    <h:outputStylesheet library="css" name="style.css"  />
 </h:head>
 <h:body>
     <h:form>
-        <p:calendar value="#{entryListController.date}" pattern="yyyy-MM-dd" showOn="button"/>
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+        <p:calendar value="#{timeTrackSession.filterDate}" pattern="yyyy-MM-dd" showOn="button"/>
         <p:commandButton value="Filter" actionListener="#{entryListController.findEntries}" update="entries"/>
 
         <p:dataTable id="entries" var="entry" value="#{entryListController.entries}">
@@ -19,12 +22,17 @@
             </p:column>
             <p:column headerText="Start">
                 <h:outputText value="#{entry.start}">
-                    <f:convertDateTime pattern="yyyy-MM-dd hh:mm"/>
+                    <f:convertDateTime pattern="hh:mm"/>
                 </h:outputText>
             </p:column>
             <p:column headerText="End">
                 <h:outputText value="#{entry.end}">
-                    <f:convertDateTime pattern="yyyy-MM-dd hh:mm"/>
+                    <f:convertDateTime pattern="hh:mm"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Duration">
+                <h:outputText value="#{entry.duration}" escape="false">
+                    <f:converter converterId="Duration"/>
                 </h:outputText>
             </p:column>
         </p:dataTable>

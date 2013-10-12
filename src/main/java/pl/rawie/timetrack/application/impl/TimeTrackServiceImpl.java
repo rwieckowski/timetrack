@@ -3,7 +3,6 @@ package pl.rawie.timetrack.application.impl;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Range;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import pl.rawie.timetrack.application.TimeTrackService;
 import pl.rawie.timetrack.domain.model.DomainError;
@@ -12,7 +11,6 @@ import pl.rawie.timetrack.domain.model.EntryRepository;
 import pl.rawie.timetrack.domain.service.OverlapService;
 import pl.rawie.timetrack.domain.service.impl.OverlapServiceImpl;
 import pl.rawie.timetrack.domain.validator.AddEntryValidator;
-import pl.rawie.timetrack.domain.validator.ValidationError;
 import pl.rawie.timetrack.domain.validator.ValidatorUtils;
 
 import java.util.Date;
@@ -34,8 +32,7 @@ public class TimeTrackServiceImpl implements TimeTrackService {
     public void addEntry(Entry entry) {
         Preconditions.checkArgument(entry != null, "entry");
         ValidatorUtils.invoke(getAddEntryValidator(), entry, "entry");
-        Range<Date> range = Range.closed(entry.getStart(), entry.getEnd());
-        List<Entry> entries = getEntryRepository().findAllByDateRange(range);
+        List<Entry> entries = getEntryRepository().findAllByDate(entry.getStart());
         if (getOverlapService().overlaps(entry, entries))
             throw new DomainError("overlapped.entry");
         getEntryRepository().store(entry);
