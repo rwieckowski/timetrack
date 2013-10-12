@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <h:outputStylesheet library="css" name="style.css"/>
+    <title>TimeTrack / Add entry</title>
+</h:head>
+<h:body>
+    <h:form>
+        <p:messages id="messages"/>
+        <h:panelGrid columns="2">
+            <p:outputLabel for="summary" value="Summary:"/>
+            <p:inputText id="summary" value="#{addEntryController.summary}"/>
+
+            <p:outputLabel for="date" value="Date:"/>
+            <p:calendar id="date" value="#{addEntryController.date}" pattern="yyyy-MM-dd" showOn="button"/>
+
+            <p:outputLabel for="start" value="Start:"/>
+            <p:inputText id="start" value="#{addEntryController.start}"/>
+
+            <p:outputLabel for="end" value="End:"/>
+            <p:inputText id="end" value="#{addEntryController.end}"/>
+
+            <p:commandButton value="Add" action="#{addEntryController.addEntry}" update="messages"/>
+        </h:panelGrid>
+    </h:form>
+</h:body>
+</html>

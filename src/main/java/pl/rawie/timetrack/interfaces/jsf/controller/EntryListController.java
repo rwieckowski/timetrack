@@ -9,6 +9,7 @@ import pl.rawie.timetrack.domain.model.EntryBuilder;
 import pl.rawie.timetrack.domain.model.EntryRepository;
 import pl.rawie.timetrack.interfaces.jsf.utils.Message;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.event.ActionEvent;
 import java.util.ArrayList;
@@ -25,6 +26,11 @@ public class EntryListController {
     @Autowired
     private EntryRepository repository;
     private List<Entry> entries = new ArrayList<Entry>();
+
+    @PostConstruct
+    public void init() {
+        entries = repository.findAllByDate(getFilterDate());
+    }
 
     public void findEntries(ActionEvent e) {
         try {
