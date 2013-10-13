@@ -16,6 +16,9 @@ import java.util.Date;
 @Component
 @ManagedBean
 public class AddEntryController {
+    private static String SUCCESS = "filter.xhtml";
+    private static String ERROR = null;
+
     @Autowired
     private TimeTrackService service;
     private String summary;
@@ -41,9 +44,9 @@ public class AddEntryController {
             service.addEntry(entry);
         } catch (DomainError e) {
             Message.error(e);
-            return null;
+            return ERROR;
         }
-        return "welcome.xhtml";
+        return SUCCESS;
     }
 
     private Date makeDate(Date date, String time) {

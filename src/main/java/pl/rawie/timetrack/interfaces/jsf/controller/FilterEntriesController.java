@@ -1,11 +1,10 @@
 package pl.rawie.timetrack.interfaces.jsf.controller;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.rawie.timetrack.application.TimeTrackService;
+import pl.rawie.timetrack.domain.model.DomainError;
 import pl.rawie.timetrack.domain.model.Entry;
-import pl.rawie.timetrack.domain.model.EntryBuilder;
 import pl.rawie.timetrack.domain.model.EntryRepository;
 import pl.rawie.timetrack.interfaces.jsf.utils.Message;
 
@@ -18,7 +17,7 @@ import java.util.List;
 
 @Component
 @ManagedBean
-public class EntryListController {
+public class FilterEntriesController {
     @Autowired
     private TimeTrackSession session;
     @Autowired
@@ -29,20 +28,17 @@ public class EntryListController {
 
     @PostConstruct
     public void init() {
-        entries = repository.findAllByDate(getFilterDate());
+        loadEntries();
     }
 
     public void findEntries(ActionEvent e) {
+        loadEntries();
+    }
+
+    private void loadEntries() {
         try {
-            Message.info(getFilterDate().toString());
-            service.addEntry(EntryBuilder
-                    .anEntry()
-                    .withSummary("entry #" + entries.size())
-                    .withStart(DateTime.now().withTime(12, 0, 0, 0).toDate())
-                    .withEnd(DateTime.now().withTime(14, 0, 0, 0).toDate())
-                    .build());
             entries = repository.findAllByDate(getFilterDate());
-        } catch (Exception ex) {
+        } catch (DomainError ex) {
             Message.error(ex);
         }
     }

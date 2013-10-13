@@ -14,9 +14,9 @@
         <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 
         <p:calendar value="#{timeTrackSession.filterDate}" pattern="yyyy-MM-dd" showOn="button"/>
-        <p:commandButton value="Filter" actionListener="#{entryListController.findEntries}" update="entries"/>
+        <p:commandButton value="Filter" actionListener="#{filterEntriesController.findEntries}" update="entries"/>
 
-        <p:dataTable id="entries" var="entry" value="#{entryListController.entries}">
+        <p:dataTable id="entries" var="entry" value="#{filterEntriesController.entries}">
             <p:column headerText="Summary">
                 <h:outputText value="#{entry.summary}"/>
             </p:column>

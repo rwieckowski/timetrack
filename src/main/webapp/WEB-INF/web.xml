@@ -24,7 +24,7 @@
     </listener>
 
     <welcome-file-list>
-        <welcome-file>welcome.xhtml</welcome-file>
+        <welcome-file>filter.xhtml</welcome-file>
     </welcome-file-list>
 
     <servlet>
