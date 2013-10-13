@@ -7,10 +7,12 @@ import pl.rawie.timetrack.application.TimeTrackService;
 import pl.rawie.timetrack.domain.model.DomainError;
 import pl.rawie.timetrack.domain.model.Entry;
 import pl.rawie.timetrack.domain.model.EntryBuilder;
+import pl.rawie.timetrack.domain.validator.ValidationError;
 import pl.rawie.timetrack.interfaces.jsf.utils.Message;
 import pl.rawie.timetrack.utils.Today;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import java.util.Date;
 
 @Component
@@ -42,8 +44,9 @@ public class AddEntryController {
                     .withEnd(makeDate(date, end))
                     .build();
             service.addEntry(entry);
-        } catch (DomainError e) {
-            Message.error(e);
+        } catch (ValidationError e) {
+            Message.validationError(e);
+            FacesContext.getCurrentInstance().validationFailed();
             return ERROR;
         }
         return SUCCESS;

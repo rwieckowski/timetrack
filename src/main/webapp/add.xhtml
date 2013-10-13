@@ -10,22 +10,27 @@
     <title>TimeTrack / Add entry</title>
 </h:head>
 <h:body>
-    <h:form>
-        <p:messages id="messages"/>
-        <h:panelGrid columns="2">
+    <h:form id="form">
+        <p:messages id="messages" globalOnly="true" showDetail="true" closable="true"/>
+        <h:panelGrid columns="3">
             <p:outputLabel for="summary" value="Summary:"/>
             <p:inputText id="summary" value="#{addEntryController.summary}"/>
+            <p:message for="summary"/>
 
             <p:outputLabel for="date" value="Date:"/>
-            <p:calendar id="date" value="#{addEntryController.date}" pattern="yyyy-MM-dd" showOn="button"/>
+            <p:calendar id="date" value="#{addEntryController.date}" pattern="yyyy-MM-dd" showOn="button"
+                        required="true"/>
+            <p:message for="date"/>
 
             <p:outputLabel for="start" value="Start:"/>
-            <p:inputText id="start" value="#{addEntryController.start}"/>
+            <p:inputText id="start" value="#{addEntryController.start}" required="true"/>
+            <p:message for="start"/>
 
             <p:outputLabel for="end" value="End:"/>
-            <p:inputText id="end" value="#{addEntryController.end}"/>
+            <p:inputText id="end" value="#{addEntryController.end}" required="true"/>
+            <p:message for="end"/>
 
-            <p:commandButton value="Add" action="#{addEntryController.addEntry}" update="messages"/>
+            <p:commandButton value="Add" action="#{addEntryController.addEntry}" update="form"/>
         </h:panelGrid>
     </h:form>
 </h:body>
