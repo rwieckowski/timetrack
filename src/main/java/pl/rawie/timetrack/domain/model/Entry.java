@@ -9,10 +9,10 @@ import java.util.Date;
 
 public class Entry {
     private String summary;
-    private Date start;
-    private Date end;
+    private DateTime start;
+    private DateTime end;
 
-    public Entry(String summary, Date start, Date end) {
+    public Entry(String summary, DateTime start, DateTime end) {
         this.summary = summary;
         this.start = start;
         this.end = end;
@@ -22,21 +22,20 @@ public class Entry {
         return summary;
     }
 
-    public Date getStart() {
+    public DateTime getStart() {
         return start;
     }
 
-    public Date getEnd() {
+    public DateTime getEnd() {
         return end;
     }
 
-    public Range getDateRange() {
+    public Range<DateTime> getDateRange() {
         return Range.closedOpen(start, end);
     }
 
     public long getDuration() {
-        Duration duration = new Duration(new DateTime(start), new DateTime(end));
-        return duration.getStandardMinutes();
+        return new Duration(start, end).getStandardMinutes();
     }
 
     @Override

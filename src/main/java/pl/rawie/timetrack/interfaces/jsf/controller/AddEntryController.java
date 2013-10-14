@@ -4,7 +4,6 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.rawie.timetrack.application.TimeTrackService;
-import pl.rawie.timetrack.domain.model.DomainError;
 import pl.rawie.timetrack.domain.model.Entry;
 import pl.rawie.timetrack.domain.model.EntryBuilder;
 import pl.rawie.timetrack.domain.validator.ValidationError;
@@ -24,7 +23,7 @@ public class AddEntryController {
     @Autowired
     private TimeTrackService service;
     private String summary;
-    private Date date = Today.toDate();
+    private Date date = Today.withStartOfTheDay().toDate();
     private String start = dateToString(new Date());
     private String end = dateToString(new Date());
 
@@ -52,18 +51,14 @@ public class AddEntryController {
         return SUCCESS;
     }
 
-    private Date makeDate(Date date, String time) {
+    private DateTime makeDate(Date date, String time) {
         DateTime dt = new DateTime(date);
         String[] tokens = time.split(":");
         int hours = (tokens.length >= 1) ? Integer.parseInt(tokens[0]) : 0;
         int minutes = (tokens.length >= 2) ? Integer.parseInt(tokens[1]) : 0;
-        System.out.println(hours + ":" + minutes);
-        Date d = dt.withTimeAtStartOfDay()
+        return dt.withTimeAtStartOfDay()
                 .withHourOfDay(hours)
-                .withMinuteOfHour(minutes)
-                .toDate();
-        System.out.println(d);
-        return d;
+                .withMinuteOfHour(minutes);
     }
 
     public String getSummary() {

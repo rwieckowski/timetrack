@@ -1,11 +1,11 @@
 package pl.rawie.timetrack.domain.model;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 public class EntryBuilder {
     private String summary;
-    private Date start;
-    private Date end;
+    private DateTime start;
+    private DateTime end;
 
     private EntryBuilder() {
     }
@@ -19,18 +19,17 @@ public class EntryBuilder {
         return this;
     }
 
-    public EntryBuilder withStart(Date start) {
+    public EntryBuilder withStart(DateTime start) {
         this.start = start;
         return this;
     }
 
-    public EntryBuilder withEnd(Date end) {
+    public EntryBuilder withEnd(DateTime end) {
         this.end = end;
         return this;
     }
 
     public Entry build() {
-        Entry entry = new Entry(summary, start, end);
-        return entry;
+        return new Entry(summary, start, end);
     }
 }

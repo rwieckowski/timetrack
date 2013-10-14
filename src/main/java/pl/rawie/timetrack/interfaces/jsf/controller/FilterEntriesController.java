@@ -1,5 +1,6 @@
 package pl.rawie.timetrack.interfaces.jsf.controller;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.rawie.timetrack.application.TimeTrackService;
@@ -12,7 +13,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Component
@@ -51,7 +51,7 @@ public class FilterEntriesController {
         this.entries = entries;
     }
 
-    public Date getFilterDate() {
-        return session.getFilterDate();
+    private DateTime getFilterDate() {
+        return new DateTime(session.getFilterDate());
     }
 }

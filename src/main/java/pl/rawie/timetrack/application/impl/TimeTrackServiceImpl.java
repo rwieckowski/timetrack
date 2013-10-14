@@ -1,10 +1,11 @@
 package pl.rawie.timetrack.application.impl;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Range;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.rawie.timetrack.application.TimeTrackService;
+import pl.rawie.timetrack.domain.model.AggregateEntry;
 import pl.rawie.timetrack.domain.model.DomainError;
 import pl.rawie.timetrack.domain.model.Entry;
 import pl.rawie.timetrack.domain.model.EntryRepository;
@@ -13,6 +14,7 @@ import pl.rawie.timetrack.domain.service.impl.OverlapServiceImpl;
 import pl.rawie.timetrack.domain.validator.AddEntryValidator;
 import pl.rawie.timetrack.domain.validator.ValidatorUtils;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +38,11 @@ public class TimeTrackServiceImpl implements TimeTrackService {
         if (getOverlapService().overlaps(entry, entries))
             throw new DomainError("overlapped.entry");
         getEntryRepository().store(entry);
+    }
+
+    @Override
+    public List<AggregateEntry> getWeekSummary(DateTime date) {
+        return Collections.emptyList();
     }
 
     private EntryRepository getEntryRepository() {
