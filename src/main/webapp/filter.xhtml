@@ -7,31 +7,31 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
-    <h:outputStylesheet library="css" name="style.css"  />
+    <h:outputStylesheet library="css" name="style.css"/>
 </h:head>
 <h:body>
     <h:form>
-        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
 
         <p:calendar value="#{timeTrackSession.filterDate}" pattern="yyyy-MM-dd" showOn="button"/>
         <p:commandButton value="Filter" actionListener="#{filterEntriesController.findEntries}" update="entries"/>
 
-        <p:dataTable id="entries" var="entry" value="#{filterEntriesController.entries}">
+        <p:dataTable id="entries" var="aggregate" value="#{filterEntriesController.entries}">
             <p:column headerText="Summary">
-                <h:outputText value="#{entry.summary}"/>
+                <h:outputText value="#{aggregate.summary}"/>
             </p:column>
             <p:column headerText="Start">
-                <h:outputText value="#{entry.start}">
-                    <f:convertDateTime pattern="HH:mm"/>
+                <h:outputText value="#{aggregate.start}">
+                    <f:converter converterId="Time"/>
                 </h:outputText>
             </p:column>
             <p:column headerText="End">
-                <h:outputText value="#{entry.end}">
-                    <f:convertDateTime pattern="HH:mm"/>
+                <h:outputText value="#{aggregate.end}">
+                    <f:converter converterId="Time"/>
                 </h:outputText>
             </p:column>
             <p:column headerText="Duration">
-                <h:outputText value="#{entry.duration}" escape="false">
+                <h:outputText value="#{aggregate.duration}" escape="false">
                     <f:converter converterId="Duration"/>
                 </h:outputText>
             </p:column>

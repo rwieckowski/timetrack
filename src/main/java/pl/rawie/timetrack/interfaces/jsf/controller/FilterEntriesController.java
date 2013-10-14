@@ -11,12 +11,14 @@ import pl.rawie.timetrack.interfaces.jsf.utils.Message;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 @ManagedBean
+@ViewScoped
 public class FilterEntriesController {
     @Autowired
     private TimeTrackSession session;
@@ -38,6 +40,7 @@ public class FilterEntriesController {
     private void loadEntries() {
         try {
             entries = repository.findAllByDate(getFilterDate());
+            System.out.println("load: " + entries);
         } catch (DomainError ex) {
             Message.error(ex);
         }

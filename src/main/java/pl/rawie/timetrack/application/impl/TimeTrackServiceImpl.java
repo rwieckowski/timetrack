@@ -1,7 +1,9 @@
 package pl.rawie.timetrack.application.impl;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Range;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.rawie.timetrack.application.TimeTrackService;
@@ -9,13 +11,13 @@ import pl.rawie.timetrack.domain.model.AggregateEntry;
 import pl.rawie.timetrack.domain.model.DomainError;
 import pl.rawie.timetrack.domain.model.Entry;
 import pl.rawie.timetrack.domain.model.EntryRepository;
+import pl.rawie.timetrack.domain.service.AggregateService;
 import pl.rawie.timetrack.domain.service.OverlapService;
+import pl.rawie.timetrack.domain.service.impl.AggregateServiceImpl;
 import pl.rawie.timetrack.domain.service.impl.OverlapServiceImpl;
 import pl.rawie.timetrack.domain.validator.AddEntryValidator;
 import pl.rawie.timetrack.domain.validator.ValidatorUtils;
 
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -24,10 +26,12 @@ public class TimeTrackServiceImpl implements TimeTrackService {
     private EntryRepository entryRepository;
     private AddEntryValidator addEntryValidator;
     private OverlapService overlapService;
+    private AggregateService aggregateService;
 
     public TimeTrackServiceImpl() {
         setAddEntryValidator(new AddEntryValidator());
         setOverlapService(new OverlapServiceImpl());
+        setAggregateService(new AggregateServiceImpl());
     }
 
     @Override
@@ -42,7 +46,12 @@ public class TimeTrackServiceImpl implements TimeTrackService {
 
     @Override
     public List<AggregateEntry> getWeekSummary(DateTime date) {
-        return Collections.emptyList();
+        DateTime start = date
+                .withTimeAtStartOfDay()
+                .minus(date.getDayOfWeek() - DateTimeConstants.MONDAY);
+        Range<DateTime> range = Range.closedOpen(start, start.plusWeeks(1));
+        List<Entry> entries = getEntryRepository().findAllByDateRange(range);
+        return getAggregateService().aggregate(entries);
     }
 
     private EntryRepository getEntryRepository() {
@@ -70,5 +79,14 @@ public class TimeTrackServiceImpl implements TimeTrackService {
 
     public void setOverlapService(OverlapService overlapService) {
         this.overlapService = overlapService;
+    }
+
+    private AggregateService getAggregateService() {
+        Preconditions.checkState(overlapService != null, "aggregateService");
+        return aggregateService;
+    }
+
+    public void setAggregateService(AggregateService aggregateService) {
+        this.aggregateService = aggregateService;
     }
 }

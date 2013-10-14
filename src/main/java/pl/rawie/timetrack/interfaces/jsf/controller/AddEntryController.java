@@ -11,13 +11,15 @@ import pl.rawie.timetrack.interfaces.jsf.utils.Message;
 import pl.rawie.timetrack.utils.Today;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.util.Date;
 
 @Component
 @ManagedBean
+@ViewScoped
 public class AddEntryController {
-    private static String SUCCESS = "filter.xhtml";
+    private static String SUCCESS = "filter.xhtml?faces-redirect=true";
     private static String ERROR = null;
 
     @Autowired

@@ -12,7 +12,9 @@ import java.util.Date;
 @ManagedBean
 @SessionScoped
 public class TimeTrackSession implements Serializable {
-    private Date filterDate = Today.toDate();
+    private Date filterDate = Today.withStartOfTheDay().toDate();
+    private Date summaryDate = Today.withStartOfTheDay().toDate();
+
 
     public Date getFilterDate() {
         return filterDate;
@@ -20,5 +22,13 @@ public class TimeTrackSession implements Serializable {
 
     public void setFilterDate(Date filterDate) {
         this.filterDate = filterDate;
+    }
+
+    public Date getSummaryDate() {
+        return summaryDate;
+    }
+
+    public void setSummaryDate(Date summaryDate) {
+        this.summaryDate = summaryDate;
     }
 }
