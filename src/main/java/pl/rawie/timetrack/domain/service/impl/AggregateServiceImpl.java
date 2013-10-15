@@ -19,10 +19,12 @@ class Aggregator {
     private List<AggregateEntry> aggregates = new ArrayList<AggregateEntry>();
 
     public List<AggregateEntry> aggregate(List<Entry> entries) {
-        List<AggregateEntry> result = new ArrayList<AggregateEntry>();
-        for (Entry entry : entries)
-            result.add(getOrCreateAggregateFor(entry));
-        return result;
+        for (Entry entry : entries) {
+            AggregateEntry aggregate = getOrCreateAggregateFor(entry);
+            if (!aggregates.contains(aggregate))
+                aggregates.add(aggregate);
+        }
+        return aggregates;
     }
 
     private AggregateEntry getOrCreateAggregateFor(Entry entry) {

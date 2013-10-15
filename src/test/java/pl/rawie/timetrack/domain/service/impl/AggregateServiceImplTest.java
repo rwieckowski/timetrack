@@ -25,7 +25,7 @@ public class AggregateServiceImplTest {
 
     private void aggregate(List<Entry> entries, List<AggregateEntry> aggregates) {
         List<AggregateEntry> actual = service.aggregate(entries);
-        assertThat(aggregates, is(equalTo(actual)));
+        assertThat(actual, is(equalTo(aggregates)));
     }
 
     @Test
@@ -38,5 +38,24 @@ public class AggregateServiceImplTest {
         Entry entry = SampleEntry.entry();
         List<Entry> entries = Arrays.asList(entry);
         aggregate(entries, Arrays.asList(new AggregateEntry(entries)));
+    }
+
+    @Test
+    public void entriesSameType() {
+        Entry entry = SampleEntry.entry();
+        List<Entry> entries = Arrays.asList(entry, entry);
+        aggregate(entries, Arrays.asList(new AggregateEntry(entries)));
+    }
+
+    @Test
+    public void entriesDifferentType() {
+        Entry entry1 = SampleEntry.builder().withSummary("summary-1").build();
+        Entry entry2 = SampleEntry.builder().withSummary("summary-2").build();
+        List<Entry> entries = Arrays.asList(entry1, entry2);
+        aggregate(entries,
+                Arrays.asList(
+                        new AggregateEntry(Arrays.asList(entry1)),
+                        new AggregateEntry(Arrays.asList(entry2))
+                        ));
     }
 }

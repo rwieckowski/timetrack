@@ -45,4 +45,11 @@ public class AggregateEntry {
     public int hashCode() {
         return entries.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "AggregateEntry{" +
+                "entries=" + entries +
+                '}';
+    }
 }
