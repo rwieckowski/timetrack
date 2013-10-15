@@ -1,4 +1,8 @@
 BODY {
-    font-size: 10pt;
-    width: 1280px;
+    font-size: 8pt;
+}
+
+#page {
+    width: 1024px;
+    margin: 0 auto;
 }

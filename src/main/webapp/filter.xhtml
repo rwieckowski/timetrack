@@ -5,37 +5,41 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 <h:head>
-    <h:outputStylesheet library="css" name="style.css"/>
 </h:head>
 <h:body>
-    <h:form>
-        <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+    <ui:composition template="/template/layout.xhtml">
+        <ui:define name="content">
+            <h:form>
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
 
-        <p:calendar value="#{timeTrackSession.filterDate}" pattern="yyyy-MM-dd" showOn="button"/>
-        <p:commandButton value="Filter" actionListener="#{filterEntriesController.findEntries}" update="entries"/>
+                <p:calendar value="#{timeTrackSession2.filterDate}" pattern="yyyy-MM-dd" showOn="button"/>
+                <p:commandButton value="Refresh" actionListener="#{filterEntriesController.findEntries}" update="entries"/>
 
-        <p:dataTable id="entries" var="aggregate" value="#{filterEntriesController.entries}">
-            <p:column headerText="Summary">
-                <h:outputText value="#{aggregate.summary}"/>
-            </p:column>
-            <p:column headerText="Start">
-                <h:outputText value="#{aggregate.start}">
-                    <f:converter converterId="Time"/>
-                </h:outputText>
-            </p:column>
-            <p:column headerText="End">
-                <h:outputText value="#{aggregate.end}">
-                    <f:converter converterId="Time"/>
-                </h:outputText>
-            </p:column>
-            <p:column headerText="Duration">
-                <h:outputText value="#{aggregate.duration}" escape="false">
-                    <f:converter converterId="Duration"/>
-                </h:outputText>
-            </p:column>
-        </p:dataTable>
-    </h:form>
+                <p:dataTable id="entries" var="aggregate" value="#{filterEntriesController.entries}">
+                    <p:column headerText="Summary">
+                        <h:outputText value="#{aggregate.summary}"/>
+                    </p:column>
+                    <p:column headerText="Start">
+                        <h:outputText value="#{aggregate.start}">
+                            <f:converter converterId="Time"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="End">
+                        <h:outputText value="#{aggregate.end}">
+                            <f:converter converterId="Time"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Duration">
+                        <h:outputText value="#{aggregate.duration}" escape="false">
+                            <f:converter converterId="Duration"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
 </h:body>
 </html>

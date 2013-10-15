@@ -11,7 +11,7 @@ import java.util.Date;
 @Component
 @ManagedBean
 @SessionScoped
-public class TimeTrackSession implements Serializable {
+public class TimeTrackSession2 implements Serializable {
     private Date filterDate = Today.withStartOfTheDay().toDate();
     private Date summaryDate = Today.withStartOfTheDay().toDate();
 

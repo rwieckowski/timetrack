@@ -4,34 +4,35 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-<h:head>
-    <h:outputStylesheet library="css" name="style.css"/>
-    <title>TimeTrack / Add entry</title>
-</h:head>
 <h:body>
-    <h:form id="form">
-        <p:messages id="messages" globalOnly="true" showDetail="true" closable="true"/>
-        <h:panelGrid columns="3">
-            <p:outputLabel for="summary" value="Summary:"/>
-            <p:inputText id="summary" value="#{addEntryController.summary}"/>
-            <p:message for="summary"/>
+    <ui:composition template="/template/layout.xhtml">
+        <ui:define name="content">
+            <h:form id="form">
+                <p:messages id="messages" globalOnly="true" showDetail="true" closable="true"/>
+                <h:panelGrid columns="3">
+                    <p:outputLabel for="summary" value="Summary:"/>
+                    <p:inputText id="summary" value="#{addEntryController.summary}"/>
+                    <p:message for="summary"/>
 
-            <p:outputLabel for="date" value="Date:"/>
-            <p:calendar id="date" value="#{addEntryController.date}" pattern="yyyy-MM-dd" showOn="button"
-                        required="true"/>
-            <p:message for="date"/>
+                    <p:outputLabel for="date" value="Date:"/>
+                    <p:calendar id="date" value="#{addEntryController.date}" pattern="yyyy-MM-dd" showOn="button"
+                                required="true"/>
+                    <p:message for="date"/>
 
-            <p:outputLabel for="start" value="Start:"/>
-            <p:inputText id="start" value="#{addEntryController.start}" required="true"/>
-            <p:message for="start"/>
+                    <p:outputLabel for="start" value="Start:"/>
+                    <p:inputText id="start" value="#{addEntryController.start}" required="true"/>
+                    <p:message for="start"/>
 
-            <p:outputLabel for="end" value="End:"/>
-            <p:inputText id="end" value="#{addEntryController.end}" required="true"/>
-            <p:message for="end"/>
+                    <p:outputLabel for="end" value="End:"/>
+                    <p:inputText id="end" value="#{addEntryController.end}" required="true"/>
+                    <p:message for="end"/>
 
-            <p:commandButton value="Add" action="#{addEntryController.addEntry}" update="form"/>
-        </h:panelGrid>
-    </h:form>
+                    <p:commandButton value="Add" action="#{addEntryController.addEntry}" update="form"/>
+                </h:panelGrid>
+            </h:form>
+        </ui:define>
+    </ui:composition>
 </h:body>
 </html>
