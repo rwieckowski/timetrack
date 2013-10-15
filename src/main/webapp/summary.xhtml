@@ -20,13 +20,46 @@
                 <p:commandButton value="Refresh" actionListener="#{weekSummaryController.getWeekSummary}"
                                  update="summary"/>
 
+                <p:spacer height="16" />
+
                 <p:dataTable id="summary" var="aggregate" value="#{weekSummaryController.summary}">
+                    <f:facet name="header">
+                        Week summary
+                    </f:facet>
+
+                    <p:column style="width: 1.5em;">
+                        <p:rowToggler />
+                    </p:column>
+
                     <p:column>
                         <f:facet name="header">
                             Summary
                         </f:facet>
                         <h:outputText value="#{aggregate.summary}"/>
                     </p:column>
+
+                    <p:rowExpansion>
+                        <p:dataTable id="entries" var="entry" value="#{aggregate.entries}">
+                            <p:column headerText="Summary">
+                                <h:outputText value="#{entry.summary}"/>
+                            </p:column>
+                            <p:column headerText="Start">
+                                <h:outputText value="#{entry.start}">
+                                    <f:converter converterId="Time"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="End">
+                                <h:outputText value="#{entry.end}">
+                                    <f:converter converterId="Time"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Duration">
+                                <h:outputText value="#{entry.duration}" escape="false">
+                                    <f:converter converterId="Duration"/>
+                                </h:outputText>
+                            </p:column>
+                        </p:dataTable>
+                    </p:rowExpansion>
                 </p:dataTable>
             </h:form>
         </ui:define>
