@@ -11,7 +11,6 @@ import pl.rawie.timetrack.interfaces.jsf.utils.Message;
 import pl.rawie.timetrack.utils.Today;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.util.Date;
 
@@ -24,15 +23,14 @@ public class AddEntryController {
     @Autowired
     private TimeTrackService service;
     private String summary;
-    private Date date = Today.withStartOfTheDay().toDate();
-    private String start = dateToString(new Date());
-    private String end = dateToString(new Date());
+    private Date date;
+    private DateTime start;
+    private DateTime end;
 
-    private String dateToString(Date date) {
-        DateTime dt = new DateTime(date);
-        int hours = dt.getHourOfDay();
-        int minutes = dt.getMinuteOfHour();
-        return String.format("%02d:%02d", hours, minutes);
+    public void populateForm() {
+        date = Today.withStartOfTheDay().toDate();
+        start = new DateTime().minusHours(1);
+        end = new DateTime();
     }
 
     public String addEntry() {
@@ -52,14 +50,11 @@ public class AddEntryController {
         return SUCCESS;
     }
 
-    private DateTime makeDate(Date date, String time) {
-        DateTime dt = new DateTime(date);
-        String[] tokens = time.split(":");
-        int hours = (tokens.length >= 1) ? Integer.parseInt(tokens[0]) : 0;
-        int minutes = (tokens.length >= 2) ? Integer.parseInt(tokens[1]) : 0;
-        return dt.withTimeAtStartOfDay()
-                .withHourOfDay(hours)
-                .withMinuteOfHour(minutes);
+    private DateTime makeDate(Date date, DateTime time) {
+        return new DateTime(date)
+                .withTimeAtStartOfDay()
+                .withHourOfDay(time.getHourOfDay())
+                .withMinuteOfHour(time.getMinuteOfHour());
     }
 
     public String getSummary() {
@@ -78,19 +73,19 @@ public class AddEntryController {
         this.date = date;
     }
 
-    public String getStart() {
+    public DateTime getStart() {
         return start;
     }
 
-    public void setStart(String start) {
+    public void setStart(DateTime start) {
         this.start = start;
     }
 
-    public String getEnd() {
+    public DateTime getEnd() {
         return end;
     }
 
-    public void setEnd(String end) {
+    public void setEnd(DateTime end) {
         this.end = end;
     }
 }

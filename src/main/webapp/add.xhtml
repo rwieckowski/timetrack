@@ -4,12 +4,15 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 <h:body>
     <ui:composition template="/template/layout.xhtml">
         <ui:define name="content">
             <h:form id="form">
+                <f:event type="preRenderView" listener="#{addEntryController.populateForm}" />
+
                 <p:messages id="messages" globalOnly="true" showDetail="true" closable="true"/>
                 <h:panelGrid columns="3">
                     <p:outputLabel for="summary" value="Summary:"/>
@@ -22,11 +25,15 @@
                     <p:message for="date"/>
 
                     <p:outputLabel for="start" value="Start:"/>
-                    <p:inputText id="start" value="#{addEntryController.start}" required="true"/>
+                    <p:inputText id="start" value="#{addEntryController.start}" required="true">
+                        <f:converter converterId="Time"/>
+                    </p:inputText>
                     <p:message for="start"/>
 
                     <p:outputLabel for="end" value="End:"/>
-                    <p:inputText id="end" value="#{addEntryController.end}" required="true"/>
+                    <p:inputText id="end" value="#{addEntryController.end}" required="true">
+                        <f:converter converterId="Time"/>
+                    </p:inputText>
                     <p:message for="end"/>
 
                     <p:commandButton value="Add" action="#{addEntryController.addEntry}" update="form"/>

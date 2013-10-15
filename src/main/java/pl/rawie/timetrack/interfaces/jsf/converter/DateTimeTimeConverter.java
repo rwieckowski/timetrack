@@ -9,10 +9,10 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
 @FacesConverter(forClass=DateTime.class, value="Time")
-public class DateTimeConverter implements Converter {
+public class DateTimeTimeConverter implements Converter {
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-        return null;
+        return DateTimeFormat.forPattern("HH:mm").parseDateTime(value);
     }
 
     @Override

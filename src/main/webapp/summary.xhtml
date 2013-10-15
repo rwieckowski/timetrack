@@ -14,6 +14,8 @@
     <ui:composition template="/template/layout.xhtml">
         <ui:define name="content">
             <h:form>
+                <f:event type="preRenderView" listener="#{weekSummaryController.loadSummary}" />
+
                 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
 
                 <p:calendar value="#{timeTrackSession.summaryDate}" pattern="yyyy-MM-dd" showOn="button"/>

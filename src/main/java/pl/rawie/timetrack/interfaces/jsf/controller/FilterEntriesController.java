@@ -26,16 +26,11 @@ public class FilterEntriesController {
     private EntryRepository repository;
     private List<Entry> entries = new ArrayList<Entry>();
 
-    @PostConstruct
-    public void init() {
-        loadEntries();
-    }
-
     public void findEntries(ActionEvent e) {
         loadEntries();
     }
 
-    private void loadEntries() {
+    public void loadEntries() {
         try {
             entries = repository.findAllByDate(getFilterDate());
             System.out.println("load: " + entries);

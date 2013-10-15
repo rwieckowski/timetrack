@@ -20,16 +20,11 @@ public class WeekSummaryController {
     private TimeTrackService service;
     private List<AggregateEntry> summary = new ArrayList<AggregateEntry>();
 
-    @PostConstruct
-    public void init() {
-        loadSummary();
-    }
-
     public void getWeekSummary() {
         loadSummary();
     }
 
-    private void loadSummary() {
+    public void loadSummary() {
         summary = service.getWeekSummary(new DateTime(session.getSummaryDate()));
     }
 
