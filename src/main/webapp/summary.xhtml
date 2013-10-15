@@ -40,6 +40,15 @@
                         <h:outputText value="#{aggregate.summary}"/>
                     </p:column>
 
+                    <p:column>
+                        <f:facet name="header">
+                            Duration
+                        </f:facet>
+                        <h:outputText value="#{aggregate.duration}" escape="false">
+                            <f:converter converterId="Duration"/>
+                        </h:outputText>
+                    </p:column>
+
                     <p:rowExpansion>
                         <p:dataTable id="entries" var="entry" value="#{aggregate.entries}">
                             <p:column headerText="Summary">

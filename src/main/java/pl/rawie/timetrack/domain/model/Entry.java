@@ -38,8 +38,8 @@ public class Entry {
         return Range.closedOpen(start, end);
     }
 
-    public long getDuration() {
-        return new Duration(start, end).getStandardMinutes();
+    public Duration getDuration() {
+        return new Duration(start, end);
     }
 
     @Override

@@ -1,6 +1,8 @@
 package pl.rawie.timetrack.domain.model;
 
 import com.google.common.base.Preconditions;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
 
 import java.util.List;
 
@@ -18,6 +20,13 @@ public class AggregateEntry {
 
     public String getSummary() {
         return entries.get(0).getSummary();
+    }
+
+    public Duration getDuration() {
+        Duration duration = Duration.standardMinutes(0);
+        for (Entry entry : entries)
+            duration = duration.plus(entry.getDuration());
+        return duration;
     }
 
     public boolean isAggregateFor(Entry entry) {
