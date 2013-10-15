@@ -11,9 +11,26 @@ import java.util.List;
 public class AggregateServiceImpl implements AggregateService {
     @Override
     public List<AggregateEntry> aggregate(List<Entry> entries) {
+        return new Aggregator().aggregate(entries);
+    }
+}
+
+class Aggregator {
+    private List<AggregateEntry> aggregates = new ArrayList<AggregateEntry>();
+
+    public List<AggregateEntry> aggregate(List<Entry> entries) {
         List<AggregateEntry> result = new ArrayList<AggregateEntry>();
         for (Entry entry : entries)
-            result.add(new AggregateEntry(Arrays.asList(entry)));
+            result.add(getOrCreateAggregateFor(entry));
         return result;
+    }
+
+    private AggregateEntry getOrCreateAggregateFor(Entry entry) {
+        for (AggregateEntry aggregate : aggregates)
+            if (aggregate.isAggregateFor(entry)) {
+                aggregate.addEntry(entry);
+                return aggregate;
+            }
+        return new AggregateEntry(new ArrayList<Entry>(Arrays.asList(entry)));
     }
 }

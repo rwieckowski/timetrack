@@ -18,6 +18,10 @@ public class Entry {
         this.end = end;
     }
 
+    public boolean sameAs(Entry other) {
+        return summary.equalsIgnoreCase(other.summary);
+    }
+
     public String getSummary() {
         return summary;
     }
