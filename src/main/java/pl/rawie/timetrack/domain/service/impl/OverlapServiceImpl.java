@@ -10,7 +10,7 @@ public class OverlapServiceImpl implements OverlapService {
     public boolean overlaps(Entry entry, Collection<Entry> entries) {
         for (Entry existing : entries) {
             try {
-                if (!entry.getDateRange().intersection(existing.getDateRange()).isEmpty())
+                if (!entry.getDateTimeRange().intersection(existing.getDateTimeRange()).isEmpty())
                     return true;
             } catch (IllegalArgumentException e) {
                 // no intersection

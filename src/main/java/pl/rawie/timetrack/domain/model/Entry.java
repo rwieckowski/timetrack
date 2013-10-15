@@ -30,7 +30,7 @@ public class Entry {
         return end;
     }
 
-    public Range<DateTime> getDateRange() {
+    public Range<DateTime> getDateTimeRange() {
         return Range.closedOpen(start, end);
     }
 
