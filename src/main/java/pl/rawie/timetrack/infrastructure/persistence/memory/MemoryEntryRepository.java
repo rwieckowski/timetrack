@@ -8,7 +8,6 @@ import pl.rawie.timetrack.domain.model.EntryRepository;
 import pl.rawie.timetrack.utils.Today;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -24,14 +23,12 @@ public class MemoryEntryRepository implements EntryRepository {
         List<Entry> result = new ArrayList<Entry>();
         for (Entry entry : entries) {
             try {
-                //if (!entry.getDateRange().intersection(range).isEmpty())
+                if (!range.intersection(entry.getDateTimeRange()).isEmpty())
                     result.add(entry);
             } catch (IllegalArgumentException e) {
                 // no intersection
             }
         }
-        System.out.println("entries: " + entries);
-        System.out.println("result: " + result);
         return result;
     }
 
@@ -43,7 +40,6 @@ public class MemoryEntryRepository implements EntryRepository {
 
     @Override
     public void store(Entry entry) {
-        System.out.println("store: " + entry);
         entries.add(entry);
     }
 }
