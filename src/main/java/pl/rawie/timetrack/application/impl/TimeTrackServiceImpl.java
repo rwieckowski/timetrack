@@ -7,10 +7,7 @@ import org.joda.time.DateTimeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.rawie.timetrack.application.TimeTrackService;
-import pl.rawie.timetrack.domain.model.AggregateEntry;
-import pl.rawie.timetrack.domain.model.DomainError;
-import pl.rawie.timetrack.domain.model.Entry;
-import pl.rawie.timetrack.domain.model.EntryRepository;
+import pl.rawie.timetrack.domain.model.*;
 import pl.rawie.timetrack.domain.service.AggregateService;
 import pl.rawie.timetrack.domain.service.OverlapService;
 import pl.rawie.timetrack.domain.service.impl.AggregateServiceImpl;
@@ -40,7 +37,7 @@ public class TimeTrackServiceImpl implements TimeTrackService {
         ValidatorUtils.invoke(getAddEntryValidator(), entry, "entry");
         List<Entry> entries = getEntryRepository().findAllByDate(entry.getStart());
         if (getOverlapService().overlaps(entry, entries))
-            throw new DomainError("overlapped.entry");
+            throw new DomainError(DomainErrorCode.OVERLAPPED_ENTRY);
         getEntryRepository().store(entry);
     }
 

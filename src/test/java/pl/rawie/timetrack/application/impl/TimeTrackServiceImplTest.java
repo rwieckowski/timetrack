@@ -6,16 +6,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.validation.Errors;
-import pl.rawie.timetrack.domain.model.DomainError;
-import pl.rawie.timetrack.domain.model.Entry;
-import pl.rawie.timetrack.domain.model.EntryRepository;
-import pl.rawie.timetrack.domain.model.SampleEntry;
+import pl.rawie.timetrack.domain.model.*;
 import pl.rawie.timetrack.domain.service.OverlapService;
 import pl.rawie.timetrack.domain.validator.AddEntryValidator;
-import pl.rawie.timetrack.domain.validator.ValidationError;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyCollection;
 import static org.mockito.Matchers.anyCollectionOf;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
@@ -45,9 +40,10 @@ public class TimeTrackServiceImplTest {
         service.addEntry(null);
     }
 
-    @Test(expected = ValidationError.class)
+    @Test(expected = DomainError.class)
     public void addEntry_invalidEntry() {
-        doThrow(new ValidationError(null)).when(addEntryValidator).validate(any(Entry.class), any(Errors.class));
+        doThrow(new DomainError(DomainErrorCode.VALIDATION_FAILED))
+                .when(addEntryValidator).validate(any(Entry.class), any(Errors.class));
         service.addEntry(SampleEntry.entry());
     }
 

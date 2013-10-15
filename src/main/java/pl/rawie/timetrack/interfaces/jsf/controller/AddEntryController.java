@@ -4,9 +4,9 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.rawie.timetrack.application.TimeTrackService;
+import pl.rawie.timetrack.domain.model.DomainError;
 import pl.rawie.timetrack.domain.model.Entry;
 import pl.rawie.timetrack.domain.model.EntryBuilder;
-import pl.rawie.timetrack.domain.validator.ValidationError;
 import pl.rawie.timetrack.interfaces.jsf.utils.Message;
 import pl.rawie.timetrack.utils.Today;
 
@@ -42,8 +42,8 @@ public class AddEntryController {
                     .withEnd(makeDate(date, end))
                     .build();
             service.addEntry(entry);
-        } catch (ValidationError e) {
-            Message.validationError(e);
+        } catch (DomainError e) {
+            Message.domainError(e);
             FacesContext.getCurrentInstance().validationFailed();
             return ERROR;
         }

@@ -3,8 +3,9 @@ package pl.rawie.timetrack.domain.validator;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.springframework.validation.FieldError;
+import pl.rawie.timetrack.domain.model.DomainError;
 
-public class HasFieldErrorMatcher extends BaseMatcher<ValidationError> {
+public class HasFieldErrorMatcher extends BaseMatcher<DomainError> {
     private String field;
     private String errorCode;
 
@@ -15,7 +16,7 @@ public class HasFieldErrorMatcher extends BaseMatcher<ValidationError> {
 
     @Override
     public boolean matches(Object o) {
-        ValidationError ex = (ValidationError)o;
+        DomainError ex = (DomainError)o;
 
         for (FieldError error : ex.getErrors().getFieldErrors(field)) {
             if (error.getCode().equals(errorCode))
