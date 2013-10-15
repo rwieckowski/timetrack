@@ -19,7 +19,7 @@ import java.util.List;
 @ManagedBean
 public class FilterEntriesController {
     @Autowired
-    private TimeTrackSession2 session;
+    private TimeTrackSession session;
     @Autowired
     private TimeTrackService service;
     @Autowired

@@ -15,7 +15,7 @@ import java.util.List;
 @ManagedBean
 public class WeekSummaryController {
     @Autowired
-    private TimeTrackSession2 session;
+    private TimeTrackSession session;
     @Autowired
     private TimeTrackService service;
     private List<AggregateEntry> summary = new ArrayList<AggregateEntry>();

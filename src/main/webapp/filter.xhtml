@@ -15,7 +15,7 @@
             <h:form>
                 <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
 
-                <p:calendar value="#{timeTrackSession2.filterDate}" pattern="yyyy-MM-dd" showOn="button"/>
+                <p:calendar value="#{timeTrackSession.filterDate}" pattern="yyyy-MM-dd" showOn="button"/>
                 <p:commandButton value="Refresh" actionListener="#{filterEntriesController.findEntries}" update="entries"/>
 
                 <p:dataTable id="entries" var="aggregate" value="#{filterEntriesController.entries}">
