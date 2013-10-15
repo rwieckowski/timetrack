@@ -18,22 +18,22 @@
                 <p:calendar value="#{timeTrackSession.filterDate}" pattern="yyyy-MM-dd" showOn="button"/>
                 <p:commandButton value="Refresh" actionListener="#{filterEntriesController.findEntries}" update="entries"/>
 
-                <p:dataTable id="entries" var="aggregate" value="#{filterEntriesController.entries}">
+                <p:dataTable id="entries" var="entry" value="#{filterEntriesController.entries}">
                     <p:column headerText="Summary">
-                        <h:outputText value="#{aggregate.summary}"/>
+                        <h:outputText value="#{entry.summary}"/>
                     </p:column>
                     <p:column headerText="Start">
-                        <h:outputText value="#{aggregate.start}">
+                        <h:outputText value="#{entry.start}">
                             <f:converter converterId="Time"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="End">
-                        <h:outputText value="#{aggregate.end}">
+                        <h:outputText value="#{entry.end}">
                             <f:converter converterId="Time"/>
                         </h:outputText>
                     </p:column>
                     <p:column headerText="Duration">
-                        <h:outputText value="#{aggregate.duration}" escape="false">
+                        <h:outputText value="#{entry.duration}" escape="false">
                             <f:converter converterId="Duration"/>
                         </h:outputText>
                     </p:column>
