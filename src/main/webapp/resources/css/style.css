@@ -6,3 +6,11 @@ BODY {
     width: 1024px;
     margin: 0 auto;
 }
+
+.detail-row {
+    background-color: gray;
+}
+
+.detail-row > TD {
+    padding: 8px !important;
+}

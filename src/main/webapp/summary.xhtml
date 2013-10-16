@@ -51,7 +51,7 @@
                         </h:outputText>
                     </p:column>
 
-                    <p:rowExpansion>
+                    <p:rowExpansion styleClass="detail-row">
                         <p:dataTable id="entries" var="entry" value="#{aggregate.entries}">
                             <p:column headerText="Summary">
                                 <h:outputText value="#{entry.summary}"/>
