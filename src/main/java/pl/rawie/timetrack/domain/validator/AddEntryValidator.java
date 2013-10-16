@@ -16,8 +16,8 @@ public class AddEntryValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         Entry entry = (Entry)target;
-        rejectIfEmptyOrWhitespace(errors, "summary", "required");
-        rejectIfEmpty(errors, "start", "required");
-        rejectIfEmpty(errors, "end", "required");
+        rejectIfEmptyOrWhitespace(errors, "summary", ValidationErrorCode.REQUIRED.code());
+        rejectIfEmpty(errors, "start", ValidationErrorCode.REQUIRED.code());
+        rejectIfEmpty(errors, "end", ValidationErrorCode.REQUIRED.code());
     }
 }

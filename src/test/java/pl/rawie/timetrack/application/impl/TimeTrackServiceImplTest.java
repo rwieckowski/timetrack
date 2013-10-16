@@ -9,6 +9,7 @@ import org.springframework.validation.Errors;
 import pl.rawie.timetrack.domain.model.*;
 import pl.rawie.timetrack.domain.service.OverlapService;
 import pl.rawie.timetrack.domain.validator.AddEntryValidator;
+import pl.rawie.timetrack.domain.validator.ValidationError;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyCollectionOf;
@@ -40,9 +41,9 @@ public class TimeTrackServiceImplTest {
         service.addEntry(null);
     }
 
-    @Test(expected = DomainError.class)
+    @Test(expected = ValidationError.class)
     public void addEntry_invalidEntry() {
-        doThrow(new DomainError(DomainErrorCode.VALIDATION_FAILED))
+        doThrow(new ValidationError())
                 .when(addEntryValidator).validate(any(Entry.class), any(Errors.class));
         service.addEntry(SampleEntry.entry());
     }
