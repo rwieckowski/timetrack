@@ -4,6 +4,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import pl.rawie.timetrack.domain.model.DomainError;
 import pl.rawie.timetrack.domain.model.DomainErrorCode;
+import pl.rawie.timetrack.domain.validator.ValidationError;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -16,30 +17,30 @@ public class Message {
                 .addMessage();
     }
 
-    public static void domainError(DomainError cause) {
+    public static void validationError(ValidationError cause) {
         MessageBuilder builder = new MessageBuilder();
-        if (cause.getCode() == DomainErrorCode.VALIDATION_FAILED) {
-            for (ObjectError error : cause.getErrors().getAllErrors()) {
-                if (error instanceof FieldError) {
-                    FieldError fieldError = (FieldError) error;
-                    builder
-                            .forForm("form")
-                            .forField(fieldError.getField())
-                            .withSummary(cause.getLocalizedMessage())
-                            .withDetail(fieldError.getCode())
-                            .addMessage();
-                } else {
-                    builder
-                            .withSummary(cause.getLocalizedMessage())
-                            .addMessage();
-                }
+        for (ObjectError error : cause.getErrors().getAllErrors()) {
+            if (error instanceof FieldError) {
+                FieldError fieldError = (FieldError) error;
+                builder
+                        .forForm("form")
+                        .forField(fieldError.getField())
+                        .withSummary(cause.getLocalizedMessage())
+                        .withDetail(fieldError.getCode())
+                        .addMessage();
+            } else {
+                builder
+                        .withSummary(cause.getLocalizedMessage())
+                        .addMessage();
             }
-
-        } else {
-            builder
-                    .withSummary(cause.getLocalizedMessage())
-                    .addMessage();
         }
+    }
+
+    public static void domainError(DomainError cause) {
+        new MessageBuilder()
+                .withSummary(cause.getLocalizedMessage())
+                .withDetail(cause.getCode().name())
+                .addMessage();
     }
 
     public static void info(String message) {

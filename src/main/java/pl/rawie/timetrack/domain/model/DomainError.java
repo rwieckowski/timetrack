@@ -8,23 +8,13 @@ import java.util.ResourceBundle;
 
 public class DomainError extends RuntimeException {
     private DomainErrorCode code;
-    private Errors errors = new BeanPropertyBindingResult(null, "");
 
     public DomainError(DomainErrorCode code) {
         this.code = code;
     }
 
-    public DomainError(Errors errors) {
-        this.code = DomainErrorCode.VALIDATION_FAILED;
-        this.errors = errors;
-    }
-
     public DomainErrorCode getCode() {
         return code;
-    }
-
-    public Errors getErrors() {
-        return errors;
     }
 
     @Override

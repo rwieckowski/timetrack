@@ -2,6 +2,7 @@ package pl.rawie.timetrack.domain.validator;
 
 import org.hamcrest.Matcher;
 import org.junit.Test;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Validator;
 import pl.rawie.timetrack.domain.model.DomainError;
 import pl.rawie.timetrack.domain.model.DomainErrorCode;
@@ -14,12 +15,12 @@ import static pl.rawie.timetrack.domain.validator.ValidatorMatchers.hasFieldErro
 public class AddEntryValidatorTest {
     private Validator validator = new AddEntryValidator();
 
-    private void validate(Entry entry, Matcher<DomainError>... matchers) {
+    private void validate(Entry entry, Matcher<ValidationError>... matchers) {
         try {
             ValidatorUtils.invoke(validator, entry, "entry");
-            throw new DomainError(DomainErrorCode.VALIDATION_FAILED);
-        } catch (DomainError e) {
-            for (Matcher<DomainError> matcher : matchers)
+            throw new ValidationError(new BeanPropertyBindingResult("", ""));
+        } catch (ValidationError e) {
+            for (Matcher<ValidationError> matcher : matchers)
                 assertThat(e, matcher);
         }
     }

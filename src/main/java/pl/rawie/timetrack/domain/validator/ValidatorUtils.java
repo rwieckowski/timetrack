@@ -8,6 +8,6 @@ public class ValidatorUtils {
         Errors errors = new BeanPropertyBindingResult(target, objectName);
         ValidationUtils.invokeValidator(validator, target, errors);
         if (errors.hasErrors())
-            throw new DomainError(errors);
+            throw new ValidationError(errors);
     }
 }
