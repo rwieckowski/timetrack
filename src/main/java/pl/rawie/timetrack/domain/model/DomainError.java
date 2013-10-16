@@ -1,8 +1,5 @@
 package pl.rawie.timetrack.domain.model;
 
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.Errors;
-
 import java.util.Locale;
 import java.util.ResourceBundle;
 
