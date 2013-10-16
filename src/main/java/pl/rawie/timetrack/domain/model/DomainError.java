@@ -29,6 +29,6 @@ public class DomainError extends RuntimeException {
 
     private String getResourceMessage(Locale locale) {
         ResourceBundle bundle = ResourceBundle.getBundle("DomainError", locale);
-        return (bundle.containsKey(code.name())) ? bundle.getString(code.name()) : "Unknown error";
+        return (bundle.containsKey(code.name())) ? bundle.getString(code.name()) : "Missing message: " + code.name();
     }
 }

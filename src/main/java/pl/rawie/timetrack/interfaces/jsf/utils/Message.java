@@ -3,11 +3,12 @@ package pl.rawie.timetrack.interfaces.jsf.utils;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import pl.rawie.timetrack.domain.model.DomainError;
-import pl.rawie.timetrack.domain.model.DomainErrorCode;
 import pl.rawie.timetrack.domain.validator.ValidationError;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class Message {
     public static void error(Throwable cause) {
@@ -26,7 +27,7 @@ public class Message {
                         .forForm("form")
                         .forField(fieldError.getField())
                         .withSummary(cause.getLocalizedMessage())
-                        .withDetail(fieldError.getCode())
+                        .withDetail(getResourceMessage(fieldError.getCode()))
                         .addMessage();
             } else {
                 builder
@@ -34,6 +35,11 @@ public class Message {
                         .addMessage();
             }
         }
+    }
+
+    private static String getResourceMessage(String code) {
+        ResourceBundle bundle = ResourceBundle.getBundle("ValidationError");
+        return (bundle.containsKey(code)) ? bundle.getString(code) : "Missing message: " + code;
     }
 
     public static void domainError(DomainError cause) {
