@@ -51,6 +51,15 @@
                         </h:outputText>
                     </p:column>
 
+                    <p:column>
+                        <f:facet name="header">
+                            Normalized duration
+                        </f:facet>
+                        <h:outputText value="#{aggregate.normalizedDuration}" escape="false">
+                            <f:converter converterId="Duration"/>
+                        </h:outputText>
+                    </p:column>
+
                     <p:rowExpansion styleClass="detail-row">
                         <p:dataTable id="entries" var="entry" value="#{aggregate.entries}">
                             <p:column headerText="Summary">
