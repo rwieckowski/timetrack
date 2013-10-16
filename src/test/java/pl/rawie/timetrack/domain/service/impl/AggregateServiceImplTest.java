@@ -33,11 +33,6 @@ public class AggregateServiceImplTest {
             assertThat(iterator.next(), matcher);
     }
 
-    private void normalizeDuration(int duration, int normalizedDuration) {
-        List<Entry> entries = Arrays.asList(SampleEntry.builder().withDurationInMinutes(duration).build());
-        aggregate(entries, hasProperty("normalizedDuration", equalTo(Duration.standardMinutes(normalizedDuration))));
-    }
-
     @Test
     public void entries_empty() {
         aggregate(Arrays.<Entry>asList());
@@ -63,23 +58,5 @@ public class AggregateServiceImplTest {
         aggregate(entries,
                 hasProperty("entries", equalTo(Arrays.asList(entry1))),
                 hasProperty("entries", equalTo(Arrays.asList(entry2))));
-    }
-
-    @Test
-    public void duration() {
-        List<Entry> entries = Arrays.asList(
-                SampleEntry.builder().withDurationInHours(1).build(),
-                SampleEntry.builder().withDurationInHours(2).build(),
-                SampleEntry.builder().withDurationInHours(3).build());
-        aggregate(entries, hasProperty("duration", equalTo(Duration.standardHours(6))));
-    }
-
-    @Test
-    public void normalizedDuration() {
-        normalizeDuration(0, 30);
-        normalizeDuration(44, 30);
-        normalizeDuration(45, 60);
-        normalizeDuration(74, 60);
-        normalizeDuration(75, 90);
     }
 }
