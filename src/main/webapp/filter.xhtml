@@ -20,6 +20,10 @@
                 <p:calendar value="#{timeTrackSession.filterDate}" pattern="yyyy-MM-dd" showOn="button"/>
                 <p:commandButton value="Refresh" actionListener="#{filterEntriesController.findEntries}" update="entries"/>
 
+                <div>
+                    <p:spacer height="16"/>
+                </div>
+
                 <p:dataTable id="entries" var="entry" value="#{filterEntriesController.entries}">
                     <p:column headerText="Summary">
                         <h:outputText value="#{entry.summary}"/>
