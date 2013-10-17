@@ -1,6 +1,7 @@
 package pl.rawie.timetrack.domain.model;
 
 import org.joda.time.DateTime;
+import org.joda.time.Duration;
 
 public class EntryBuilder {
     private String summary;
@@ -26,6 +27,16 @@ public class EntryBuilder {
 
     public EntryBuilder withEnd(DateTime end) {
         this.end = end;
+        return this;
+    }
+
+    public EntryBuilder withDurationInHours(int hours) {
+        this.end = start.plus(Duration.standardHours(hours));
+        return this;
+    }
+
+    public EntryBuilder withDurationInMinutes(int minutes) {
+        this.end = start.plus(Duration.standardMinutes(minutes));
         return this;
     }
 

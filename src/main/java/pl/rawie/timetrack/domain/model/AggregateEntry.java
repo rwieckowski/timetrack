@@ -29,6 +29,13 @@ public class AggregateEntry {
         return duration;
     }
 
+    public Duration getNormalizedDuration() {
+        long minutes = getDuration().getStandardMinutes();
+        long units = (minutes + 15) / 30;
+        long normalizedMinutes = ((units >= 1) ? units : 1) * 30;
+        return Duration.standardMinutes(normalizedMinutes);
+    }
+
     public boolean isAggregateFor(Entry entry) {
         return entries.isEmpty() || entry.sameAs(entries.get(0));
     }

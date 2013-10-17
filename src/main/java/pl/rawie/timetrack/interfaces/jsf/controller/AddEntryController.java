@@ -7,6 +7,7 @@ import pl.rawie.timetrack.application.TimeTrackService;
 import pl.rawie.timetrack.domain.model.DomainError;
 import pl.rawie.timetrack.domain.model.Entry;
 import pl.rawie.timetrack.domain.model.EntryBuilder;
+import pl.rawie.timetrack.domain.model.EntryRepository;
 import pl.rawie.timetrack.domain.validator.ValidationError;
 import pl.rawie.timetrack.interfaces.jsf.utils.Message;
 import pl.rawie.timetrack.utils.Today;
@@ -14,6 +15,7 @@ import pl.rawie.timetrack.utils.Today;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import java.util.Date;
+import java.util.List;
 
 @Component
 @ManagedBean
@@ -23,6 +25,8 @@ public class AddEntryController {
 
     @Autowired
     private TimeTrackService service;
+    @Autowired
+    private EntryRepository repository;
     private String summary;
     private Date date;
     private DateTime start;
@@ -30,8 +34,17 @@ public class AddEntryController {
 
     public void populateForm() {
         date = Today.withStartOfTheDay().toDate();
-        start = new DateTime().minusHours(1);
+        start = getDefaultStart();
         end = new DateTime();
+    }
+
+    private DateTime getDefaultStart() {
+        DateTime end = Today.withTime(9);
+        List<Entry> entries = repository.findAllByDate(Today.withStartOfTheDay());
+        for (Entry entry : entries)
+            if (end.isBefore(entry.getEnd()))
+                end = entry.getEnd();
+        return end;
     }
 
     public String addEntry() {
