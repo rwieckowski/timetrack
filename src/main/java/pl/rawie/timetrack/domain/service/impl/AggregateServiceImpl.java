@@ -5,7 +5,6 @@ import pl.rawie.timetrack.domain.model.Entry;
 import pl.rawie.timetrack.domain.service.AggregateService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AggregateServiceImpl implements AggregateService {
@@ -16,23 +15,29 @@ public class AggregateServiceImpl implements AggregateService {
 }
 
 class Aggregator {
-    private List<AggregateEntry> aggregates = new ArrayList<AggregateEntry>();
+    private List<List<Entry>> aggregates = new ArrayList<List<Entry>>();
 
     public List<AggregateEntry> aggregate(List<Entry> entries) {
         for (Entry entry : entries) {
-            AggregateEntry aggregate = getOrCreateAggregateFor(entry);
+            List<Entry> aggregate = getOrCreateAggregateFor(entry);
+            aggregate.add(entry);
             if (!aggregates.contains(aggregate))
                 aggregates.add(aggregate);
         }
-        return aggregates;
+        return makeAggregates();
     }
 
-    private AggregateEntry getOrCreateAggregateFor(Entry entry) {
-        for (AggregateEntry aggregate : aggregates)
-            if (aggregate.isAggregateFor(entry)) {
-                aggregate.addEntry(entry);
+    private List<Entry> getOrCreateAggregateFor(Entry entry) {
+        for (List<Entry> aggregate : aggregates)
+            if (entry.sameAs(aggregate.get(0)))
                 return aggregate;
-            }
-        return new AggregateEntry(new ArrayList<Entry>(Arrays.asList(entry)));
+        return new ArrayList<Entry>();
+    }
+
+    private List<AggregateEntry> makeAggregates() {
+        List<AggregateEntry> result = new ArrayList<AggregateEntry>();
+        for (List<Entry> aggregate : aggregates)
+            result.add(new AggregateEntry(aggregate));
+        return result;
     }
 }
