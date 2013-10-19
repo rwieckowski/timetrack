@@ -16,7 +16,7 @@ public class AggregateServiceImpl implements AggregateService {
 
     @Override
     public List<AggregateEntry> normalize(List<AggregateEntry> aggregates) {
-        return Collections.emptyList();
+        return aggregates;
     }
 }
 

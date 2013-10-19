@@ -1,6 +1,7 @@
 package pl.rawie.timetrack.domain.service.impl;
 
 import org.hamcrest.Matcher;
+import org.joda.time.Duration;
 import org.junit.Before;
 import org.junit.Test;
 import pl.rawie.timetrack.domain.model.AggregateEntry;
@@ -9,7 +10,6 @@ import pl.rawie.timetrack.domain.model.SampleAggregateEntry;
 import pl.rawie.timetrack.domain.model.SampleEntry;
 import pl.rawie.timetrack.domain.service.AggregateService;
 
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -79,6 +79,6 @@ public class AggregateServiceImplTest {
     public void normalize_singleAggregate() {
         AggregateEntry aggregate = SampleAggregateEntry.withDurationInHours(1);
         List<AggregateEntry> aggregates = Arrays.asList(aggregate);
-        assertNormalize(aggregates, hasProperty("normalizedDuration", equalTo(Duration.ofHours(1))));
+        assertNormalize(aggregates, hasProperty("normalizedDuration", equalTo(Duration.standardHours(1))));
     }
 }
