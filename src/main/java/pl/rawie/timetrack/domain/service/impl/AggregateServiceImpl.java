@@ -5,12 +5,18 @@ import pl.rawie.timetrack.domain.model.Entry;
 import pl.rawie.timetrack.domain.service.AggregateService;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AggregateServiceImpl implements AggregateService {
     @Override
     public List<AggregateEntry> aggregate(List<Entry> entries) {
         return new Aggregator().aggregate(entries);
+    }
+
+    @Override
+    public List<AggregateEntry> normalize(List<AggregateEntry> aggregates) {
+        return Collections.emptyList();
     }
 }
 
