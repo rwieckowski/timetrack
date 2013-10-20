@@ -75,24 +75,21 @@ public class AggregateServiceImplTest {
         assertNormalize(Collections.<AggregateEntry>emptyList());
     }
 
-    @Test
-    public void normalize_singleAggregateWithDuration60() {
-        AggregateEntry aggregate = SampleAggregateEntry.withDurationInMinutes(60);
+    private void assertNormalizeThatDelta(int minutes, int delta) {
+        AggregateEntry aggregate = SampleAggregateEntry.withDurationInMinutes(minutes);
         List<AggregateEntry> aggregates = Arrays.asList(aggregate);
-        assertNormalize(aggregates, hasProperty("delta", equalTo(Duration.ZERO)));
+        assertNormalize(aggregates, hasProperty("delta", equalTo(Duration.standardMinutes(delta))));
     }
 
     @Test
-    public void normalize_singleAggregateWithDuration75() {
-        AggregateEntry aggregate = SampleAggregateEntry.withDurationInMinutes(75);
-        List<AggregateEntry> aggregates = Arrays.asList(aggregate);
-        assertNormalize(aggregates, hasProperty("delta", equalTo(Duration.standardMinutes(-15))));
-    }
-
-    @Test
-    public void normalize_singleAggregateWithDuration46() {
-        AggregateEntry aggregate = SampleAggregateEntry.withDurationInMinutes(46);
-        List<AggregateEntry> aggregates = Arrays.asList(aggregate);
-        assertNormalize(aggregates, hasProperty("delta", equalTo(Duration.standardMinutes(14))));
+    public void normalize_singleAggregate_delta() {
+        assertNormalizeThatDelta(60, 0);
+        assertNormalizeThatDelta(75, -15);
+        assertNormalizeThatDelta(46, 14);
+        assertNormalizeThatDelta(45, -15);
+        assertNormalizeThatDelta(30, 0);
+        assertNormalizeThatDelta(16, 14);
+        assertNormalizeThatDelta(15, 15);
+        assertNormalizeThatDelta(0, 30);
     }
 }
