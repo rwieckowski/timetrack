@@ -3,6 +3,7 @@ package pl.rawie.timetrack.domain.service.impl;
 import pl.rawie.timetrack.domain.model.AggregateEntry;
 import pl.rawie.timetrack.domain.model.Entry;
 import pl.rawie.timetrack.domain.service.AggregateService;
+import pl.rawie.timetrack.utils.Normalization;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +17,8 @@ public class AggregateServiceImpl implements AggregateService {
 
     @Override
     public List<AggregateEntry> normalize(List<AggregateEntry> aggregates) {
+        for (AggregateEntry aggregate : aggregates)
+            aggregate.setDelta(Normalization.delta(aggregate.getDuration()));
         return aggregates;
     }
 }

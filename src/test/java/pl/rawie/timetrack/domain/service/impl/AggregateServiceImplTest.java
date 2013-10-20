@@ -76,9 +76,23 @@ public class AggregateServiceImplTest {
     }
 
     @Test
-    public void normalize_singleAggregate() {
-        AggregateEntry aggregate = SampleAggregateEntry.withDurationInHours(1);
+    public void normalize_singleAggregateWithDuration60() {
+        AggregateEntry aggregate = SampleAggregateEntry.withDurationInMinutes(60);
         List<AggregateEntry> aggregates = Arrays.asList(aggregate);
-        assertNormalize(aggregates, hasProperty("normalizedDuration", equalTo(Duration.standardHours(1))));
+        assertNormalize(aggregates, hasProperty("delta", equalTo(Duration.ZERO)));
+    }
+
+    @Test
+    public void normalize_singleAggregateWithDuration75() {
+        AggregateEntry aggregate = SampleAggregateEntry.withDurationInMinutes(75);
+        List<AggregateEntry> aggregates = Arrays.asList(aggregate);
+        assertNormalize(aggregates, hasProperty("delta", equalTo(Duration.standardMinutes(-15))));
+    }
+
+    @Test
+    public void normalize_singleAggregateWithDuration46() {
+        AggregateEntry aggregate = SampleAggregateEntry.withDurationInMinutes(46);
+        List<AggregateEntry> aggregates = Arrays.asList(aggregate);
+        assertNormalize(aggregates, hasProperty("delta", equalTo(Duration.standardMinutes(14))));
     }
 }

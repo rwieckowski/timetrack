@@ -7,6 +7,7 @@ import java.util.List;
 
 public class AggregateEntry {
     private List<Entry> entries;
+    private Duration delta = Duration.ZERO;
 
     public AggregateEntry(List<Entry> entries) {
         Preconditions.checkNotNull(entries);
@@ -26,6 +27,14 @@ public class AggregateEntry {
         for (Entry entry : entries)
             duration = duration.plus(entry.getDuration());
         return duration;
+    }
+
+    public Duration getDelta() {
+        return delta;
+    }
+
+    public void setDelta(Duration delta) {
+        this.delta = delta;
     }
 
     public Duration getNormalizedDuration() {
