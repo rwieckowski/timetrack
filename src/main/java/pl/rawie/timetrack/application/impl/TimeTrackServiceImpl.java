@@ -48,7 +48,9 @@ public class TimeTrackServiceImpl implements TimeTrackService {
                 .minus(date.getDayOfWeek() - DateTimeConstants.MONDAY);
         Range<DateTime> range = Range.closedOpen(start, start.plusWeeks(1));
         List<Entry> entries = getEntryRepository().findAllByDateRange(range);
-        return getAggregateService().aggregate(entries);
+        List<AggregateEntry> aggregates = getAggregateService().aggregate(entries);
+        aggregates = getAggregateService().normalize(aggregates);
+        return aggregates;
     }
 
     private EntryRepository getEntryRepository() {

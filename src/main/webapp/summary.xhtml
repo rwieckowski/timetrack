@@ -60,6 +60,24 @@
                         </h:outputText>
                     </p:column>
 
+                    <p:column>
+                        <f:facet name="header">
+                            &#916;
+                        </f:facet>
+                        <h:outputText value="#{aggregate.delta}" escape="false">
+                            <f:converter converterId="Duration"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            &#948;
+                        </f:facet>
+                        <h:outputText value="#{aggregate.relativeError}">
+                            <f:convertNumber type="percent"/>
+                        </h:outputText>
+                    </p:column>
+
                     <p:rowExpansion styleClass="detail-row">
                         <p:dataTable id="entries" var="entry" value="#{aggregate.entries}">
                             <p:column headerText="Summary">

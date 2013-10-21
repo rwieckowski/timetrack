@@ -17,14 +17,16 @@ public class DurationConverter implements Converter {
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
         Duration duration = (Duration)value;
-        long hours = duration.getStandardHours();
-        long minutes = duration.getStandardMinutes() % 60;
+        long hours = Math.abs(duration.getStandardHours());
+        long minutes = Math.abs(duration.getStandardMinutes() % 60);
         String str = "";
-        if (hours > 0)
+        if (duration.isShorterThan(Duration.ZERO))
+            str += '-';
+        if (hours != 0)
             str += hours + "<small>h</small>";
-        if (hours > 0 && minutes > 0)
+        if (hours != 0 && minutes != 0)
             str += ' ';
-        if (minutes > 0)
+        if (hours == 0 || minutes != 0)
             str += minutes + "<small>m</small>";
         return str;
     }
