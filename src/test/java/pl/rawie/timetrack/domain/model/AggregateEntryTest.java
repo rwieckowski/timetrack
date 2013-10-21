@@ -16,13 +16,6 @@ public class AggregateEntryTest {
                 .build();
     }
 
-    private void normalizeDuration(int duration, int normalizedDuration) {
-        List<Entry> entries = Arrays.asList(SampleEntry.builder().withDurationInMinutes(duration).build());
-        assertThat(makeAggregate(entries).getNormalizedDuration(),
-                equalTo(Duration.standardMinutes(normalizedDuration)));
-    }
-
-
     @Test
     public void duration() {
         List<Entry> entries = Arrays.asList(
@@ -31,30 +24,5 @@ public class AggregateEntryTest {
                 SampleEntry.builder().withDurationInHours(3).build());
         assertThat(makeAggregate(entries).getDuration(),
                 equalTo(Duration.standardHours(6)));
-    }
-
-    @Test
-    public void normalizedDuration_0() {
-        normalizeDuration(0, 30);
-    }
-
-    @Test
-    public void normalizedDuration_44() {
-        normalizeDuration(44, 30);
-    }
-
-    @Test
-    public void normalizedDuration_45() {
-        normalizeDuration(45, 60);
-    }
-
-    @Test
-    public void normalizedDuration_60() {
-        normalizeDuration(74, 60);
-    }
-
-    @Test
-    public void normalizedDuration_75() {
-        normalizeDuration(75, 90);
     }
 }

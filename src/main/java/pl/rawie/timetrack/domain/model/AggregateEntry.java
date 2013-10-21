@@ -2,16 +2,26 @@ package pl.rawie.timetrack.domain.model;
 
 import com.google.common.base.Preconditions;
 import org.joda.time.Duration;
+import pl.rawie.timetrack.utils.Normalization;
 
 import java.util.List;
 
 public class AggregateEntry {
     private List<Entry> entries;
+    private Duration duration;
     private Duration delta = Duration.ZERO;
 
     public AggregateEntry(List<Entry> entries) {
         Preconditions.checkNotNull(entries);
         this.entries = entries;
+        this.duration = duration();
+    }
+
+    private Duration duration() {
+        Duration duration = Duration.standardMinutes(0);
+        for (Entry entry : entries)
+            duration = duration.plus(entry.getDuration());
+        return duration;
     }
 
     public List<Entry> getEntries() {
@@ -23,9 +33,6 @@ public class AggregateEntry {
     }
 
     public Duration getDuration() {
-        Duration duration = Duration.standardMinutes(0);
-        for (Entry entry : entries)
-            duration = duration.plus(entry.getDuration());
         return duration;
     }
 
@@ -33,15 +40,24 @@ public class AggregateEntry {
         return delta;
     }
 
-    public void setDelta(Duration delta) {
-        this.delta = delta;
+    public void resetDelta() {
+        delta = Normalization.deltaFor(getDuration());
+    }
+
+    public void incDelta() {
+        delta = delta.plus(Duration.standardMinutes(30));
+    }
+
+    public void decDelta() {
+        delta = delta.minus(Duration.standardMinutes(30));
     }
 
     public Duration getNormalizedDuration() {
-        long minutes = getDuration().getStandardMinutes();
-        long units = (minutes + 15) / 30;
-        long normalizedMinutes = ((units >= 1) ? units : 1) * 30;
-        return Duration.standardMinutes(normalizedMinutes);
+        return getDuration().plus(delta);
+    }
+
+    public double getRelativeError() {
+        return 1.0 * delta.getStandardMinutes() / duration.getStandardMinutes();
     }
 
     @Override
