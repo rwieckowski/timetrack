@@ -1,13 +1,13 @@
 package pl.rawie.timetrack.domain.model;
 
 import com.google.common.base.Preconditions;
-import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
 import java.util.List;
 
 public class AggregateEntry {
     private List<Entry> entries;
+    private Duration delta = Duration.ZERO;
 
     public AggregateEntry(List<Entry> entries) {
         Preconditions.checkNotNull(entries);
@@ -29,20 +29,19 @@ public class AggregateEntry {
         return duration;
     }
 
+    public Duration getDelta() {
+        return delta;
+    }
+
+    public void setDelta(Duration delta) {
+        this.delta = delta;
+    }
+
     public Duration getNormalizedDuration() {
         long minutes = getDuration().getStandardMinutes();
         long units = (minutes + 15) / 30;
         long normalizedMinutes = ((units >= 1) ? units : 1) * 30;
         return Duration.standardMinutes(normalizedMinutes);
-    }
-
-    public boolean isAggregateFor(Entry entry) {
-        return entries.isEmpty() || entry.sameAs(entries.get(0));
-    }
-
-    public void addEntry(Entry entry) {
-        Preconditions.checkArgument(isAggregateFor(entry), "Aggregate must contain entries of the same type");
-        entries.add(entry);
     }
 
     @Override
