@@ -39,11 +39,7 @@ public class TimeTrackServiceImpl implements TimeTrackService {
 
     @Override
     public List<AggregateEntry> getWeekSummary(DateTime date) {
-        DateTime start = date
-                .withTimeAtStartOfDay()
-                .minus(date.getDayOfWeek() - DateTimeConstants.MONDAY);
-        Range<DateTime> range = Range.closedOpen(start, start.plusWeeks(1));
-        List<Entry> entries = getEntryRepository().findAllByDateRange(range);
+        List<Entry> entries = getEntryRepository().getWeeklyEntries(date).getEntries();
         List<AggregateEntry> aggregates = getAggregateService().aggregate(entries);
         aggregates = getAggregateService().normalize(aggregates);
         return aggregates;

@@ -6,9 +6,9 @@ import org.joda.time.DateTime;
 import java.util.List;
 
 public interface EntryRepository {
-    List<Entry> findAllByDateRange(Range<DateTime> date);
+    WeeklyEntries getWeeklyEntries(DateTime date);
 
-    DailyEntries getDailyEntries(DateTime start);
+    DailyEntries getDailyEntries(DateTime date);
 
     void storeDailyEntries(DailyEntries dailyEntries);
 }

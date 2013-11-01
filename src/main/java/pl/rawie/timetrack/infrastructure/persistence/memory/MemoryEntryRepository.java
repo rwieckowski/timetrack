@@ -2,10 +2,12 @@ package pl.rawie.timetrack.infrastructure.persistence.memory;
 
 import com.google.common.collect.Range;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.springframework.stereotype.Repository;
 import pl.rawie.timetrack.domain.model.DailyEntries;
 import pl.rawie.timetrack.domain.model.Entry;
 import pl.rawie.timetrack.domain.model.EntryRepository;
+import pl.rawie.timetrack.domain.model.WeeklyEntries;
 import pl.rawie.timetrack.utils.Today;
 
 import java.util.ArrayList;
@@ -20,28 +22,26 @@ public class MemoryEntryRepository implements EntryRepository {
     }
 
     @Override
-    public List<Entry> findAllByDateRange(Range<DateTime> range) {
-        List<Entry> result = new ArrayList<Entry>();
-        for (Entry entry : entries) {
-            try {
-                if (!range.intersection(entry.getDateTimeRange()).isEmpty())
-                    result.add(entry);
-            } catch (IllegalArgumentException e) {
-                // no intersection
-            }
-        }
-        return result;
+    public WeeklyEntries getWeeklyEntries(DateTime date) {
+        DateTime start = date
+                .withTimeAtStartOfDay()
+                .minus(date.getDayOfWeek() - DateTimeConstants.MONDAY);
+        Range<DateTime> week = Range.closedOpen(start, start.plusWeeks(1));
+        return new WeeklyEntries(findEntriesFor(week));
     }
 
     @Override
-    public DailyEntries getDailyEntries(DateTime start) {
-        List<Entry> entries = new ArrayList<Entry>();
-        Range<DateTime> day = Range.openClosed(start.withTimeAtStartOfDay(), start.withTimeAtStartOfDay().plusDays(1));
-        for (Entry entry : this.entries) {
-            if (day.contains(entry.getStart()))
-                entries.add(entry);
-        }
-        return new DailyEntries(entries);
+    public DailyEntries getDailyEntries(DateTime date) {
+        Range<DateTime> day = Range.openClosed(date.withTimeAtStartOfDay(), date.withTimeAtStartOfDay().plusDays(1));
+        return new DailyEntries(findEntriesFor(day));
+    }
+
+    private List<Entry> findEntriesFor(Range<DateTime> range) {
+        List<Entry> found = new ArrayList<Entry>();
+        for (Entry entry : entries)
+            if (range.contains(entry.getStart()))
+                found.add(entry);
+        return found;
     }
 
     @Override
