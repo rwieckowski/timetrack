@@ -1,12 +1,16 @@
 package pl.rawie.timetrack.domain.model;
 
+import org.joda.time.DateTime;
+
 import java.util.Collections;
 import java.util.List;
 
 public class DailyEntries implements Aggregate {
+    private DateTime day;
     private List<Entry> entries;
 
-    public DailyEntries(List<Entry> entries) {
+    public DailyEntries(DateTime day, List<Entry> entries) {
+        this.day = day;
         this.entries = entries;
     }
 
@@ -24,6 +28,10 @@ public class DailyEntries implements Aggregate {
                 // no intersection
             }
         }
+    }
+
+    public DateTime getDay() {
+        return day;
     }
 
     public List<Entry> getEntries() {
