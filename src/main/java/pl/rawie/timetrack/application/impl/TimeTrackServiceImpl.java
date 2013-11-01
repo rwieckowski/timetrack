@@ -1,20 +1,13 @@
 package pl.rawie.timetrack.application.impl;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Range;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.rawie.timetrack.application.TimeTrackService;
-import pl.rawie.timetrack.domain.model.AggregateEntry;
-import pl.rawie.timetrack.domain.model.DailyEntries;
-import pl.rawie.timetrack.domain.model.Entry;
-import pl.rawie.timetrack.domain.model.EntryRepository;
+import pl.rawie.timetrack.domain.model.*;
 import pl.rawie.timetrack.domain.service.AggregateService;
 import pl.rawie.timetrack.domain.service.impl.AggregateServiceImpl;
-
-import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -38,11 +31,9 @@ public class TimeTrackServiceImpl implements TimeTrackService {
     }
 
     @Override
-    public List<AggregateEntry> getWeekSummary(DateTime date) {
-        List<Entry> entries = getEntryRepository().getWeeklyEntries(date).getEntries();
-        List<AggregateEntry> aggregates = getAggregateService().aggregate(entries);
-        aggregates = getAggregateService().normalize(aggregates);
-        return aggregates;
+    public WeekSummary getWeekSummary(DateTime date) {
+        WeeklyEntries weeklyEntries = getEntryRepository().getWeeklyEntries(date);
+        return weeklyEntries.generateWeekSummary(getAggregateService());
     }
 
     private EntryRepository getEntryRepository() {

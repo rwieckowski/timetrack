@@ -25,7 +25,7 @@ public class WeekSummaryController {
     }
 
     public void loadSummary() {
-        summary = service.getWeekSummary(new DateTime(session.getSummaryDate()));
+        summary = service.getWeekSummary(new DateTime(session.getSummaryDate())).getAggregates();
     }
 
     public List<AggregateEntry> getSummary() {
