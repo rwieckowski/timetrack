@@ -1,6 +1,7 @@
 package pl.rawie.timetrack.domain.model;
 
 import org.junit.Test;
+import pl.rawie.timetrack.utils.Today;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +13,7 @@ import static org.junit.Assert.assertThat;
 
 public class DailyEntriesTest {
         private void assertThatAdd(List<Entry> existing, Entry added) {
-            DailyEntries dailyEntries = new DailyEntries(new ArrayList<Entry>(existing));
+            DailyEntries dailyEntries = new DailyEntries(Today.withStartOfTheDay(), new ArrayList<Entry>(existing));
             dailyEntries.add(added);
             List<Entry> expected = new ArrayList<Entry>(existing);
             expected.add(added);
