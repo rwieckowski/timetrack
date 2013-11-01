@@ -3,11 +3,9 @@ package pl.rawie.timetrack.interfaces.jsf.utils;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import pl.rawie.timetrack.domain.model.DomainError;
-import pl.rawie.timetrack.domain.validator.ValidationError;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Message {
@@ -16,25 +14,6 @@ public class Message {
                 .withSummary(cause.getClass().getSimpleName())
                 .withDetail(cause.getLocalizedMessage())
                 .addMessage();
-    }
-
-    public static void validationError(ValidationError cause) {
-        MessageBuilder builder = new MessageBuilder();
-        for (ObjectError error : cause.getErrors().getAllErrors()) {
-            if (error instanceof FieldError) {
-                FieldError fieldError = (FieldError) error;
-                builder
-                        .forForm("form")
-                        .forField(fieldError.getField())
-                        .withSummary(cause.getLocalizedMessage())
-                        .withDetail(getResourceMessage(fieldError.getCode()))
-                        .addMessage();
-            } else {
-                builder
-                        .withSummary(cause.getLocalizedMessage())
-                        .addMessage();
-            }
-        }
     }
 
     private static String getResourceMessage(String code) {

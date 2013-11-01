@@ -8,7 +8,7 @@ import java.util.List;
 public interface EntryRepository {
     List<Entry> findAllByDateRange(Range<DateTime> date);
 
-    List<Entry> findAllByDate(DateTime date);
+    DailyEntries getDailyEntries(DateTime start);
 
-    void store(Entry entry);
+    void storeDailyEntries(DailyEntries dailyEntries);
 }

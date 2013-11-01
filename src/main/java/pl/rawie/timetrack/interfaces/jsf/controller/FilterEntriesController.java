@@ -32,7 +32,7 @@ public class FilterEntriesController {
 
     public void loadEntries() {
         try {
-            entries = repository.findAllByDate(getFilterDate());
+            entries = repository.getDailyEntries(getFilterDate()).getEntries();
             System.out.println("load: " + entries);
         } catch (DomainError ex) {
             Message.error(ex);

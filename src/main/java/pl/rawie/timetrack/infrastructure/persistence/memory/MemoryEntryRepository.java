@@ -3,6 +3,7 @@ package pl.rawie.timetrack.infrastructure.persistence.memory;
 import com.google.common.collect.Range;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
+import pl.rawie.timetrack.domain.model.DailyEntries;
 import pl.rawie.timetrack.domain.model.Entry;
 import pl.rawie.timetrack.domain.model.EntryRepository;
 import pl.rawie.timetrack.utils.Today;
@@ -33,13 +34,24 @@ public class MemoryEntryRepository implements EntryRepository {
     }
 
     @Override
-    public List<Entry> findAllByDate(DateTime date) {
-        date = date.withTimeAtStartOfDay();
-        return findAllByDateRange(Range.closedOpen(date, date.plusDays(1)));
+    public DailyEntries getDailyEntries(DateTime start) {
+        List<Entry> entries = new ArrayList<Entry>();
+        Range<DateTime> day = Range.openClosed(start.withTimeAtStartOfDay(), start.withTimeAtStartOfDay().plusDays(1));
+        for (Entry entry : this.entries) {
+            if (day.contains(entry.getStart()))
+                entries.add(entry);
+        }
+        return new DailyEntries(entries);
     }
 
     @Override
-    public void store(Entry entry) {
-        entries.add(entry);
+    public void storeDailyEntries(DailyEntries dailyEntries) {
+        for (Entry entry : dailyEntries.getEntries())
+            storeEntry(entry);
+    }
+
+    private void storeEntry(Entry entry) {
+        if (!entries.contains(entry))
+            entries.add(entry);
     }
 }

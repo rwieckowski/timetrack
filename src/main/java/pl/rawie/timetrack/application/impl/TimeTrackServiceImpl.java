@@ -7,38 +7,34 @@ import org.joda.time.DateTimeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.rawie.timetrack.application.TimeTrackService;
-import pl.rawie.timetrack.domain.model.*;
+import pl.rawie.timetrack.domain.model.AggregateEntry;
+import pl.rawie.timetrack.domain.model.DailyEntries;
+import pl.rawie.timetrack.domain.model.Entry;
+import pl.rawie.timetrack.domain.model.EntryRepository;
 import pl.rawie.timetrack.domain.service.AggregateService;
-import pl.rawie.timetrack.domain.service.OverlapService;
 import pl.rawie.timetrack.domain.service.impl.AggregateServiceImpl;
-import pl.rawie.timetrack.domain.service.impl.OverlapServiceImpl;
-import pl.rawie.timetrack.domain.validator.AddEntryValidator;
-import pl.rawie.timetrack.domain.validator.ValidatorUtils;
 
 import java.util.List;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 @Service
 public class TimeTrackServiceImpl implements TimeTrackService {
     @Autowired
     private EntryRepository entryRepository;
-    private AddEntryValidator addEntryValidator;
-    private OverlapService overlapService;
     private AggregateService aggregateService;
 
     public TimeTrackServiceImpl() {
-        setAddEntryValidator(new AddEntryValidator());
-        setOverlapService(new OverlapServiceImpl());
         setAggregateService(new AggregateServiceImpl());
     }
 
     @Override
     public void addEntry(Entry entry) {
-        Preconditions.checkArgument(entry != null, "entry");
-        ValidatorUtils.invoke(getAddEntryValidator(), entry, "entry");
-        List<Entry> entries = getEntryRepository().findAllByDate(entry.getStart());
-        if (getOverlapService().overlaps(entry, entries))
-            throw new DomainError(DomainErrorCode.OVERLAPPED_ENTRY);
-        getEntryRepository().store(entry);
+        checkNotNull(entry, "entry");
+
+        DailyEntries dailyEntries = getEntryRepository().getDailyEntries(entry.getStart());
+        dailyEntries.add(entry);
+        getEntryRepository().storeDailyEntries(dailyEntries);
     }
 
     @Override
@@ -62,26 +58,8 @@ public class TimeTrackServiceImpl implements TimeTrackService {
         this.entryRepository = entryRepository;
     }
 
-    private AddEntryValidator getAddEntryValidator() {
-        Preconditions.checkState(addEntryValidator != null, "addEntryValidator");
-        return addEntryValidator;
-    }
-
-    public void setAddEntryValidator(AddEntryValidator addEntryValidator) {
-        this.addEntryValidator = addEntryValidator;
-    }
-
-    private OverlapService getOverlapService() {
-        Preconditions.checkState(overlapService != null, "overlapService");
-        return overlapService;
-    }
-
-    public void setOverlapService(OverlapService overlapService) {
-        this.overlapService = overlapService;
-    }
-
     private AggregateService getAggregateService() {
-        Preconditions.checkState(overlapService != null, "aggregateService");
+        Preconditions.checkState(aggregateService != null, "aggregateService");
         return aggregateService;
     }
 

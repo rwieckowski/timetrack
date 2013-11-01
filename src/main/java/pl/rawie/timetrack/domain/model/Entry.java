@@ -13,6 +13,7 @@ public class Entry {
     private DateTime end;
 
     public Entry(String summary, DateTime start, DateTime end) {
+        // TODO: should be converted to domain errors
         checkNotNull(summary, "summary");
         checkArgument(!summary.isEmpty(), "summary");
         checkNotNull(start, "start");

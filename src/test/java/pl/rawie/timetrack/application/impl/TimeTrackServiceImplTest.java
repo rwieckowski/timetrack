@@ -5,24 +5,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.validation.Errors;
-import pl.rawie.timetrack.domain.model.*;
-import pl.rawie.timetrack.domain.service.OverlapService;
-import pl.rawie.timetrack.domain.validator.AddEntryValidator;
-import pl.rawie.timetrack.domain.validator.ValidationError;
+import pl.rawie.timetrack.domain.model.DailyEntries;
+import pl.rawie.timetrack.domain.model.Entry;
+import pl.rawie.timetrack.domain.model.EntryRepository;
+import pl.rawie.timetrack.domain.model.SampleEntry;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyCollectionOf;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TimeTrackServiceImplTest {
-    @Mock
-    private AddEntryValidator addEntryValidator;
-    @Mock
-    private OverlapService overlapService;
     @Mock
     private EntryRepository entryRepository;
     private TimeTrackServiceImpl service;
@@ -30,34 +21,25 @@ public class TimeTrackServiceImplTest {
     @Before
     public void setUp() {
         service = new TimeTrackServiceImpl();
-        service.setAddEntryValidator(addEntryValidator);
-        when(addEntryValidator.supports(Entry.class)).thenReturn(true);
-        service.setOverlapService(overlapService);
         service.setEntryRepository(entryRepository);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void addEntry_nullEntry() {
         service.addEntry(null);
-    }
-
-    @Test(expected = ValidationError.class)
-    public void addEntry_invalidEntry() {
-        doThrow(new ValidationError())
-                .when(addEntryValidator).validate(any(Entry.class), any(Errors.class));
-        service.addEntry(SampleEntry.entry());
-    }
-
-    @Test(expected = DomainError.class)
-    public void addEntry_overlappedEntry() {
-        when(overlapService.overlaps(any(Entry.class), anyCollectionOf(Entry.class))).thenReturn(true);
-        service.addEntry(SampleEntry.entry());
     }
 
     @Test
     public void addEntry_validEntry() {
         Entry entry = SampleEntry.entry();
+        DailyEntries dailyEntries = mock(DailyEntries.class);
+        when(entryRepository.getDailyEntries(entry.getStart())).thenReturn(dailyEntries);
+
         service.addEntry(entry);
-        verify(entryRepository).store(entry);
+
+        verify(dailyEntries).add(entry);
+        verify(entryRepository).getDailyEntries(entry.getStart());
+        verify(entryRepository).storeDailyEntries(dailyEntries);
+        verifyNoMoreInteractions(dailyEntries, entryRepository);
     }
 }

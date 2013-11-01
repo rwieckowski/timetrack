@@ -8,7 +8,6 @@ import pl.rawie.timetrack.domain.model.DomainError;
 import pl.rawie.timetrack.domain.model.Entry;
 import pl.rawie.timetrack.domain.model.EntryBuilder;
 import pl.rawie.timetrack.domain.model.EntryRepository;
-import pl.rawie.timetrack.domain.validator.ValidationError;
 import pl.rawie.timetrack.interfaces.jsf.utils.Message;
 import pl.rawie.timetrack.utils.Today;
 
@@ -40,7 +39,7 @@ public class AddEntryController {
 
     private DateTime getDefaultStart() {
         DateTime end = Today.withTime(9);
-        List<Entry> entries = repository.findAllByDate(Today.withStartOfTheDay());
+        List<Entry> entries = repository.getDailyEntries(Today.withStartOfTheDay()).getEntries();
         for (Entry entry : entries)
             if (end.isBefore(entry.getEnd()))
                 end = entry.getEnd();
@@ -56,10 +55,6 @@ public class AddEntryController {
                     .withEnd(makeDate(date, end))
                     .build();
             service.addEntry(entry);
-        } catch (ValidationError e) {
-            Message.validationError(e);
-            FacesContext.getCurrentInstance().validationFailed();
-            return ERROR;
         } catch (DomainError e) {
             Message.domainError(e);
             FacesContext.getCurrentInstance().validationFailed();
