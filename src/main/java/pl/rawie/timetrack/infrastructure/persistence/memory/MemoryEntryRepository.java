@@ -27,13 +27,13 @@ public class MemoryEntryRepository implements EntryRepository {
                 .withTimeAtStartOfDay()
                 .minus(date.getDayOfWeek() - DateTimeConstants.MONDAY);
         Range<DateTime> week = Range.closedOpen(start, start.plusWeeks(1));
-        return new WeeklyEntries(findEntriesFor(week));
+        return new WeeklyEntries(week, findEntriesFor(week));
     }
 
     @Override
     public DailyEntries getDailyEntries(DateTime date) {
         Range<DateTime> day = Range.openClosed(date.withTimeAtStartOfDay(), date.withTimeAtStartOfDay().plusDays(1));
-        return new DailyEntries(findEntriesFor(day));
+        return new DailyEntries(day.lowerEndpoint(), findEntriesFor(day));
     }
 
     private List<Entry> findEntriesFor(Range<DateTime> range) {
