@@ -1,6 +1,7 @@
 package pl.rawie.timetrack.domain.model;
 
 import org.junit.Test;
+import pl.rawie.timetrack.domain.shared.DomainError;
 import pl.rawie.timetrack.utils.Today;
 
 import java.util.ArrayList;

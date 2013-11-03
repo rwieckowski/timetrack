@@ -1,8 +1,8 @@
 package pl.rawie.timetrack.interfaces.jsf.utils;
 
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
-import pl.rawie.timetrack.domain.model.DomainError;
+import pl.rawie.timetrack.domain.shared.DomainError;
+import pl.rawie.timetrack.utils.validation.ValidationException;
+import pl.rawie.timetrack.utils.validation.Violation;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -19,6 +19,24 @@ public class Message {
     private static String getResourceMessage(String code) {
         ResourceBundle bundle = ResourceBundle.getBundle("ValidationError");
         return (bundle.containsKey(code)) ? bundle.getString(code) : "Missing message: " + code;
+    }
+
+    public static void handleValidationExcepton(ValidationException e) {
+        for (Violation violation : e.getViolations().getViolations()) {
+            System.out.println(violation);
+            if (violation.getField().isEmpty())
+                new MessageBuilder()
+                        .withSummary(violation.getMessage())
+                        .withDetail(violation.getMessage())
+                        .addMessage();
+            else
+                new MessageBuilder()
+                    .forForm("form")
+                    .forField(violation.getField())
+                    .withSummary(violation.getMessage())
+                    .withDetail(violation.getMessage())
+                    .addMessage();
+        }
     }
 
     public static void domainError(DomainError cause) {

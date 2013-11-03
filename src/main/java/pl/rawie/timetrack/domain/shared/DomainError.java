@@ -1,13 +1,26 @@
-package pl.rawie.timetrack.domain.model;
+package pl.rawie.timetrack.domain.shared;
+
+import pl.rawie.timetrack.domain.model.DomainErrorCode;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class DomainError extends RuntimeException {
+    private String rejected;
     private DomainErrorCode code;
 
     public DomainError(DomainErrorCode code) {
         this.code = code;
+        this.rejected = null;
+    }
+
+    public DomainError(DomainErrorCode code, String rejected) {
+        this.code = code;
+        this.rejected = rejected;
+    }
+
+    public String getRejected() {
+        return rejected;
     }
 
     public DomainErrorCode getCode() {

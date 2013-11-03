@@ -1,6 +1,8 @@
 package pl.rawie.timetrack.domain.model;
 
 import org.joda.time.DateTime;
+import pl.rawie.timetrack.domain.shared.Aggregate;
+import pl.rawie.timetrack.domain.shared.DomainError;
 
 import java.util.Collections;
 import java.util.List;

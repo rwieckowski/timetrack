@@ -4,12 +4,11 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.rawie.timetrack.application.TimeTrackService;
-import pl.rawie.timetrack.domain.model.DomainError;
+import pl.rawie.timetrack.domain.shared.DomainError;
 import pl.rawie.timetrack.domain.model.Entry;
 import pl.rawie.timetrack.domain.model.EntryRepository;
 import pl.rawie.timetrack.interfaces.jsf.utils.Message;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.event.ActionEvent;
 import java.util.ArrayList;

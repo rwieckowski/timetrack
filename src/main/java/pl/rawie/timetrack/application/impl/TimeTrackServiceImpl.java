@@ -8,10 +8,13 @@ import pl.rawie.timetrack.application.TimeTrackService;
 import pl.rawie.timetrack.domain.model.*;
 import pl.rawie.timetrack.domain.service.AggregateService;
 import pl.rawie.timetrack.domain.service.impl.AggregateServiceImpl;
+import pl.rawie.timetrack.utils.validation.ApplicationService;
+import pl.rawie.timetrack.utils.validation.Check;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Service
+@ApplicationService
 public class TimeTrackServiceImpl implements TimeTrackService {
     @Autowired
     private EntryRepository entryRepository;
@@ -22,7 +25,7 @@ public class TimeTrackServiceImpl implements TimeTrackService {
     }
 
     @Override
-    public void addEntry(Entry entry) {
+    public void addEntry(@Check(EntryAddingValidator.class) Entry entry) {
         checkNotNull(entry, "entry");
 
         DailyEntries dailyEntries = getEntryRepository().getDailyEntries(entry.getStart());

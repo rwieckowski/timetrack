@@ -4,7 +4,6 @@ import com.google.common.collect.Range;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class Entry {
@@ -13,15 +12,12 @@ public class Entry {
     private DateTime end;
 
     public Entry(String summary, DateTime start, DateTime end) {
-        // TODO: should be converted to domain errors
         checkNotNull(summary, "summary");
-        checkArgument(!summary.isEmpty(), "summary");
         checkNotNull(start, "start");
         checkNotNull(end, "end");
-        checkArgument(start.isBefore(end), "start must be before end");
-        checkArgument(start.withTimeAtStartOfDay().isEqual(end.withTimeAtStartOfDay()),
-                "start and end must be at the same day");
-
+//        checkRule(start.isBefore(end), DomainErrorCode.END_BEFORE_START);
+//        checkArgument(start.withTimeAtStartOfDay().isEqual(end.withTimeAtStartOfDay()),
+//                DomainErrorCode.DIFFERENT_START_DAY_AND_END_DAY);
         this.summary = summary;
         this.start = start;
         this.end = end;
