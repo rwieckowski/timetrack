@@ -29,13 +29,11 @@ public class AggregateServiceImplTest {
     }
 
     private void assertAggregate(List<Entry> entries, Matcher matcher) {
-        List<AggregateEntry> aggregates = service.aggregate(entries);
-        assertThat(aggregates, matcher);
+        assertThat(service.aggregate(entries), matcher);
     }
 
     private void assertNormalize(List<AggregateEntry> aggregates, Matcher matcher) {
-        List<AggregateEntry> normalized = service.normalize(aggregates);
-        assertThat(normalized, matcher);
+        assertThat(service.normalize(aggregates), matcher);
     }
 
     private Matcher containsDelta(int... deltas) {

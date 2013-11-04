@@ -1,5 +1,6 @@
 package pl.rawie.timetrack.domain.model;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import pl.rawie.timetrack.utils.Today;
 
@@ -33,6 +34,7 @@ public class EntryTest {
         expectNullPointerException(builder().withSummary(null), "summary");
     }
 
+    @Ignore
     @Test
     public void emptySummary() {
         expectIllegalArgumentException(builder().withSummary(""), "summary");
@@ -48,12 +50,14 @@ public class EntryTest {
         expectNullPointerException(builder().withEnd(null), "end");
     }
 
+    @Ignore
     @Test
     public void startAfterEnd() {
         expectIllegalArgumentException(builder().withStart(Today.withTime(14)).withEnd(Today.withTime(12)),
                 "start must be before end");
     }
 
+    @Ignore
     @Test
     public void startFromDifferentDayThanEnd() {
         expectIllegalArgumentException(builder().withStart(Today.withTime(12).minusDays(1)),
