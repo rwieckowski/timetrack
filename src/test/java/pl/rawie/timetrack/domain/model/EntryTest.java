@@ -41,12 +41,6 @@ public class EntryTest {
         expectNullPointerException(builder().withSummary(null), "summary");
     }
 
-    @Ignore
-    @Test
-    public void emptySummary() {
-        expectIllegalArgumentException(builder().withSummary(""), "summary");
-    }
-
     @Test
     public void nullStart() {
         expectNullPointerException(builder().withStart(null), "start");
@@ -55,28 +49,5 @@ public class EntryTest {
     @Test
     public void nullEnd() {
         expectNullPointerException(builder().withEnd(null), "end");
-    }
-
-    @Ignore
-    @Test
-    public void startAfterEnd() {
-        expectIllegalArgumentException(builder().withStart(Today.withTime(14)).withEnd(Today.withTime(12)),
-                "start must be before end");
-    }
-
-    @Ignore
-    @Test
-    public void startFromDifferentDayThanEnd() {
-        expectIllegalArgumentException(builder().withStart(Today.withTime(12).minusDays(1)),
-                "start and end must be at the same day");
-    }
-
-    @Test
-    public void validate() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        Set<ConstraintViolation<Entry>> violations = validator.validate(SampleEntry.builder().withSummary(" ").build());
-        System.out.println(violations);
-        assertThat(violations.isEmpty(), is(false));
     }
 }
