@@ -9,11 +9,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Path;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
-
-import static com.sun.jmx.mbeanserver.DefaultMXBeanMappingFactory.propertyName;
 
 public class Message {
     public static void error(Throwable cause) {
