@@ -1,1 +1,7 @@
 language: java
+
+deploy:
+  provider: heroku
+  app: track-time
+  api_key:
+    secure: "hEZlyczGC3x1jdKydCVRAMdSpOgxCABVJrNBBxNljjE7E7knHwjIV0z/RKjm6GJ90x7uUrQww+VQWqctnvVNFsOikUW/wvPyD7IZr6PdEA0W1tkLpSRpJede2jJohUQi3hswn7ak1zrzGYQL1f2lJ/ri1QwLfjXNXtfD398OGCM="
