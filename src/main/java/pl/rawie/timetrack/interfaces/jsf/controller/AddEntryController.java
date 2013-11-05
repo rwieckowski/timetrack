@@ -10,10 +10,10 @@ import pl.rawie.timetrack.domain.model.EntryBuilder;
 import pl.rawie.timetrack.domain.model.EntryRepository;
 import pl.rawie.timetrack.interfaces.jsf.utils.Message;
 import pl.rawie.timetrack.utils.Today;
-import pl.rawie.timetrack.utils.validation.ValidationException;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.validation.ConstraintViolationException;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +33,7 @@ public class AddEntryController {
     private DateTime end;
 
     public void populateForm() {
+        // TODO: validation resets values
         date = Today.withStartOfTheDay().toDate();
         start = getDefaultStart();
         end = new DateTime();
@@ -56,12 +57,16 @@ public class AddEntryController {
                     .withEnd(makeDate(date, end))
                     .build();
             service.addEntry(entry);
-        } catch (ValidationException e) {
+        } catch (ConstraintViolationException e) {
             Message.handleValidationExcepton(e);
             FacesContext.getCurrentInstance().validationFailed();
             return ERROR;
         } catch (DomainError e) {
             Message.domainError(e);
+            FacesContext.getCurrentInstance().validationFailed();
+            return ERROR;
+        } catch (Throwable e) {
+            Message.generalError(e);
             FacesContext.getCurrentInstance().validationFailed();
             return ERROR;
         }

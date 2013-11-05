@@ -1,8 +1,9 @@
-package pl.rawie.timetrack.utils.validation;
+package pl.rawie.validation;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
+import pl.rawie.validation.annotation.ApplicationService;
 
 import java.lang.reflect.Proxy;
 

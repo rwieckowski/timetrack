@@ -1,12 +1,16 @@
 package pl.rawie.timetrack.domain.model;
 
 import com.google.common.collect.Range;
+import org.hibernate.validator.constraints.NotBlank;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
+import pl.rawie.validation.annotation.BusinessRule;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+@BusinessRule(EntryRule.class)
 public class Entry {
+    @NotBlank
     private String summary;
     private DateTime start;
     private DateTime end;
@@ -15,9 +19,6 @@ public class Entry {
         checkNotNull(summary, "summary");
         checkNotNull(start, "start");
         checkNotNull(end, "end");
-//        checkRule(start.isBefore(end), DomainErrorCode.END_BEFORE_START);
-//        checkArgument(start.withTimeAtStartOfDay().isEqual(end.withTimeAtStartOfDay()),
-//                DomainErrorCode.DIFFERENT_START_DAY_AND_END_DAY);
         this.summary = summary;
         this.start = start;
         this.end = end;

@@ -3,6 +3,13 @@ package pl.rawie.timetrack.domain.model;
 import org.junit.Test;
 import pl.rawie.timetrack.utils.Today;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
+import java.util.Set;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -58,5 +65,14 @@ public class EntryTest {
     public void startFromDifferentDayThanEnd() {
         expectIllegalArgumentException(builder().withStart(Today.withTime(12).minusDays(1)),
                 "start and end must be at the same day");
+    }
+
+    @Test
+    public void validate() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<Entry>> violations = validator.validate(SampleEntry.builder().withSummary(" ").build());
+        System.out.println(violations);
+        assertThat(violations.isEmpty(), is(false));
     }
 }
