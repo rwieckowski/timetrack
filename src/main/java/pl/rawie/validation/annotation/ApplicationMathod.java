@@ -1,4 +1,6 @@
-package pl.rawie.validation.annotation;
+package pl.rawie.timetrack.utils.validation;
+
+import com.google.common.annotations.Beta;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
